@@ -1,0 +1,33 @@
+name: Image deploy to Heroku
+on:
+  workflow_run:
+    workflows: [Image build and publish]
+    types:
+      - completed
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+        with:
+          registry: ghcr.io
+          username: "${{ github.actor }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Login to Heroku Container registry
+        env:
+          HEROKU_API_KEY: "${{ secrets.HEROKU_API_KEY }}"
+        run: "heroku container:login"
+      - name: Fetch image
+        run: "docker pull ghcr.io/${{ github.repository }}:main"
+      - name: Tag image to Heroku Registry
+        run: >-
+          docker tag ghcr.io/${{ github.repository }}:main
+          registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+      - name: Push to Heroku Registry
+        run: "docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web"
+      - name: Release to Heroku
+        env:
+          HEROKU_API_KEY: "${{ secrets.HEROKU_API_KEY }}"
+        run: "heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web"
+
