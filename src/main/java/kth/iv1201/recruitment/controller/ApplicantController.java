@@ -1,3 +1,4 @@
+/*
 package kth.iv1201.recruitment.controller;
 
 import kth.iv1201.recruitment.entity.Applicant;
@@ -10,11 +11,22 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 public class ApplicantController {
 
+    static final String DEFAULT_PAGE_URL = "/";
+    static final String API_URL = "/api/applicant";
+
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    @GetMapping("/api/applicant")
+    @GetMapping(DEFAULT_PAGE_URL)
+    public String showDefaultView() {
+        return API_URL;
+    }
+
+    @GetMapping(API_URL)
     public Applicant greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new Applicant(counter.incrementAndGet(), String.format(template, name));
     }
 }
+
+
+ */
