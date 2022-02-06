@@ -1,20 +1,19 @@
 package kth.iv1201.recruitment.controller;
 
-import kth.iv1201.recruitment.entity.Applicant;
+import kth.iv1201.recruitment.entity.Person;
+import kth.iv1201.recruitment.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class ApplicantController {
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
+	@Autowired
+	private PersonService personService;
 
-    @GetMapping("/api/applicant")
-    public Applicant greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Applicant(counter.incrementAndGet(), String.format(template, name));
-    }
+	@GetMapping("/login")
+	public Person auth() {
+		return personService.authenticate("JoelleWilkinson", "LiZ98qvL8Lw");
+	}
 }
