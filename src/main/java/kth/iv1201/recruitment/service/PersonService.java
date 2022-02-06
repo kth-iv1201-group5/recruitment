@@ -18,7 +18,7 @@ public class PersonService {
 
 	public Person authenticate(String username, String password) {
 		try {
-			PreparedStatement statement = dbHandler.prepareStatement("SELECT a FROM Person e WHERE e.username = '" + username + "' AND e.password = '" + password + "';");
+			PreparedStatement statement = dbHandler.prepareStatement("SELECT * FROM Person e WHERE e.username = '" + username + "' AND e.password = '" + password + "';");
 			ResultSet result = statement.executeQuery();
 			Person person = new Person();
 			if (result.wasNull()) {

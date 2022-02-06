@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>login</title>
@@ -7,15 +7,14 @@
           integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" crossorigin="anonymous">
 </head>
 <body>
-<center>
+<div style="text-align: center;">
     <h1> Recruitment application </h1>
     <form th:action="@{/login}" method="post">
         <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
             <div class="card-header">Enter your credentials:</div>
             <div class="card-body">
                 <label for="username" class="form-label mt-4">Email address</label>
-                <input type="email" name="username" class="form-control" id="username" aria-describedby="emailHelp"
-                       placeholder="Enter email">
+                <input type="text" name="username" class="form-control" id="username" placeholder="Enter username">
                 <label for="password" class="form-label mt-4">Password</label>
                 <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                 <br>
@@ -27,7 +26,7 @@
             </div>
         </div>
     </form>
-</center>
+</div>
 
 </body>
 </html>
