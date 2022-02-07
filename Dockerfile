@@ -9,7 +9,7 @@ WORKDIR application
 COPY pom.xml .
 COPY src ./src
 ARG PORT
-RUN mvn -DPORT=$PORT clean package
+RUN mvn -DPORT=$PORT -Dmaven.test.skip clean package
 
 ###########
 # Builder #
