@@ -10,6 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Person entity
+ * Which contains information of Person object.
+ * It has annotation of <code>@Entity, @Data, @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -29,10 +34,20 @@ public class Person {
 	private Integer role;
 	private String username;
 
+	/**
+	 * Returns the password of current object.
+	 *
+	 * @return String of password.
+	 */
 	public String getPassword() {
 		return password;
 	}
 
+	/**
+	 * Returns the username of current object.
+	 *
+	 * @return String of username.
+	 */
 	public String getUsername() {
 		return username;
 	}
