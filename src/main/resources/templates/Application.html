@@ -7,7 +7,7 @@
     <title>Home</title>
 </head>
 <body>
-<h1> Button is handled by the controller!</h1>
+<h1> Button is handled by the controllerrrrrr!</h1>
 
 <style>
     table {
@@ -39,14 +39,14 @@
 
     <tr>
     <tr th:each="applicants : ${applicants}">
-    <td><form th:action="@{/Application}" method="get">
-        <button name="personId" th:value="${applicants.getId()}" >Upvote</button>
-    </form></td>
+        <td><form th:action="@{/Application.html}" method="GET">
+            <button name="personId" th:value="${applicants.getName()}" >Upvote</button>
+        </form></td>
 
-    <td th:text="${applicants.getName()}"></td>
-    <td th:text="${applicants.getSurname}"></td>
-    <td th:text="${applicants.getPnr()}"></td>
-    <td th:text="${applicants.getEmail()}"></td>
+        <td th:text="${applicants.getName()}"></td>
+        <td th:text="${applicants.getSurname}"></td>
+        <td th:text="${applicants.getPnr()}"></td>
+        <td th:text="${applicants.getEmail()}"></td>
     </tr>
 
 

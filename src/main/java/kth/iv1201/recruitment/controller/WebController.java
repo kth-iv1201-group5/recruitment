@@ -4,10 +4,10 @@ import kth.iv1201.recruitment.entity.Person;
 import kth.iv1201.recruitment.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @Controller
 public class WebController {
@@ -17,17 +17,32 @@ public class WebController {
 	@Autowired
 	private PersonService personService;
 
+
 	@GetMapping(DEFAULT_PAGE_URL)
 	public String showDefaultView() {
 		return LOGIN_PAGE_URL;
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam("username") final String username, @RequestParam("password") final String password) {
+	public String login(@RequestParam("username") final String username, @RequestParam("password") final String password , Model model) {
 		Person person = personService.authenticate(username, password);
+		String loggedIn = "Wrong credentials! Please try again";
+		model.addAttribute("loggedIn",loggedIn);
+
 		if (person.getUsername() == null && person.getPassword() == null) {
+
 			return LOGIN_PAGE_URL;
 		}
+
+		ArrayList <Person> applicants = personService.listApplicants();
+		model.addAttribute("applicants",applicants);
 		return "home";
+	}
+
+	@RequestMapping(value = "/Application", method = RequestMethod.GET)
+	public String openApplication(@RequestParam("personId") final int personId, Model model) {
+
+		System.out.println(personId);
+		return "Application";
 	}
 }
