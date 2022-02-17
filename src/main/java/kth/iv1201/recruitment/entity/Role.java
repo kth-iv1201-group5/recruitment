@@ -10,6 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Availability entity
+ * Which contains information of Availability object.
+ * It has annotation of <code>@Entity, @Data, @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,16 +26,4 @@ public class Role {
 	@Column(name = "role_id")
 	private Integer id;
 	private String name;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
 }

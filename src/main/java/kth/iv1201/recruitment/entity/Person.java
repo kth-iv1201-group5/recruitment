@@ -44,25 +44,18 @@ public class Person {
 	/**
 	 * Returns the username of current object.
 	 *
-	 * @return String of username.
+	 * @return String of name and appended surname.
 	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * Returns the full name of user.
+	 *
+	 * @return String of name and appended surname.
+	 */
 	public String getFullName() {
 		return name + " " + surname;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getPnr() {
-		return pnr;
-	}
-
-	public Role getRole() {
-		return role;
 	}
 }

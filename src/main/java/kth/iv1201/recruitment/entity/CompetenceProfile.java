@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * CompetenceProfile entity
+ * Which contains information of CompetenceProfile object.
+ * It has annotation of <code>@Entity, @Data, @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -24,12 +29,4 @@ public class CompetenceProfile {
 	private Competence competence;
 	@Column(name = "years_of_experience")
 	private Double yearOfExperience;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 }
