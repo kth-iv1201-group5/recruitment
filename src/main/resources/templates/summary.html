@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col">
             <small style="font-weight: bold;">Role:</small>
-            <p th:inline="text">[[${person.getRole().getName()}]]</p>
+            <p class="text-capitalize" th:inline="text">[[${person.getRole().getName()}]]</p>
             <small style="font-weight: bold;">Social Security Number:</small>
             <p th:inline="text">[[${person.getPnr()}]]</p>
             <small style="font-weight: bold;">E-mail:</small>
@@ -39,8 +39,8 @@
                     </thead>
                     <tbody>
                     <tr th:each="competence : ${competences}">
-                        <td th:inline="text">[[${competence.getCompetence().getName()}]]</td>
-                        <td th:inline="text">[[${competence.getYearOfExperience()}]] years</td>
+                        <td class="text-capitalize" th:inline="text">[[${competence.getCompetence().getName()}]]</td>
+                        <td th:inline="text">[[${competence.getYearOfExperience()}]] Years</td>
                     </tr>
                     </tbody>
                 </table>
@@ -60,7 +60,10 @@
                             <tr th:each="availability : ${availabilities}">
                                 <td th:inline="text">[[${availability.getPeriod()}]]</td>
                                 <td>
-                                    <button class="btn btn-primary" type="button">Assign person</button>
+                                    <button class="btn"
+                                            th:classappend="${availability.isActive() ? 'btn-primary' : 'disabled'}"
+                                            type="button">Assign person
+                                    </button>
                                 </td>
                             </tr>
                             </tbody>
