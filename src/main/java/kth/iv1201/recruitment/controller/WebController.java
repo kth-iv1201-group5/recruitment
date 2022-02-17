@@ -51,6 +51,11 @@ public class WebController {
 		return HOME_PAGE_URL;
 	}
 
+	@GetMapping(path = LOGIN_PAGE_URL)
+	public String showLoginView() {
+		return LOGIN_PAGE_URL;
+	}
+
 	/**
 	 * Used by the thymeleaf part of the project.
 	 * Sing in user after entering correct information from the form.
@@ -59,6 +64,7 @@ public class WebController {
 	 * @param password Password entered form input.
 	 * @return Either redirect the user to <code>/home</code> or back to same form with error message.
 	 */
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam(value = "username") final String username, @RequestParam(value = "password") final String password) {
 		Person person = personService.authenticate(username, password);
