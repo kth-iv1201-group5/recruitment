@@ -1,12 +1,16 @@
 package kth.iv1201.recruitment.controller;
 
+import kth.iv1201.recruitment.entity.Availability;
+import kth.iv1201.recruitment.entity.CompetenceProfile;
 import kth.iv1201.recruitment.entity.Person;
-import kth.iv1201.recruitment.entity.Summary;
+import kth.iv1201.recruitment.service.AvailabilityService;
+import kth.iv1201.recruitment.service.CompetenceService;
 import kth.iv1201.recruitment.service.PersonService;
-import kth.iv1201.recruitment.service.SummaryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Controller used by the thymeleaf views.
@@ -21,17 +25,21 @@ public class WebController {
 	private static final String APPLICANT_SUMMARY_PAGE_URL = "/summary";
 
 	private final PersonService personService;
-	private final SummaryService summaryService;
+	private final AvailabilityService availabilityService;
+	private final CompetenceService competenceService;
 
 	/**
 	 * Constructor injection.
 	 * Inject <code>PersonService</code> to object.
 	 *
-	 * @param personService Dependency injection to controller.
+	 * @param personService       Service which have functions only dedicated to person table.
+	 * @param availabilityService Service which have functions only dedicated to availability table.
+	 * @param competenceService   Service which have function only dedicated to competence table.
 	 */
-	public WebController(PersonService personService, SummaryService summaryService) {
+	public WebController(PersonService personService, AvailabilityService availabilityService, CompetenceService competenceService) {
 		this.personService = personService;
-		this.summaryService = summaryService;
+		this.availabilityService = availabilityService;
+		this.competenceService = competenceService;
 	}
 
 	/**
@@ -72,19 +80,22 @@ public class WebController {
 	}
 
 	/**
-	 * TODO
+	 * Summary page.
+	 * Display applicant/recruiters information
 	 *
-	 * @param id
-	 * @param model
-	 * @return
+	 * @param id    Person Id, used to identify fetching data.
+	 * @param model Used for adding attributes to 'html' page.
+	 * @return Routes the user to Summary page.
 	 */
 	@GetMapping(path = APPLICANT_SUMMARY_PAGE_URL + "/{id}/")
 	public String summary(@PathVariable int id, Model model) {
-		Summary summary = summaryService.getSummaryOfPersonBy(id);
-		model.addAttribute("id", summary.getId());
-		model.addAttribute("person", summary.getPerson());
-		model.addAttribute("availabilities", summary.getAvailabilities());
-		model.addAttribute("competences", summary.getCompetences());
+		Person person = personService.findById(id);
+		List<Availability> availabilities = availabilityService.findAllByPersonId(id);
+		List<CompetenceProfile> competences = competenceService.findAllByPersonId(id);
+		model.addAttribute("id", id);
+		model.addAttribute("person", person);
+		model.addAttribute("availabilities", availabilities);
+		model.addAttribute("competences", competences);
 		return APPLICANT_SUMMARY_PAGE_URL;
 	}
 }
