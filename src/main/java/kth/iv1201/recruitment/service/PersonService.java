@@ -34,4 +34,14 @@ public class PersonService {
 	public Person authenticate(String username, String password) {
 		return personRepository.findByUsernameAndPassword(username, password);
 	}
+
+	/**
+	 * Return Person information if found or return empty object.
+	 *
+	 * @param id Person Id.
+	 * @return Information of person.
+	 */
+	public Person findById(Integer id) {
+		return personRepository.findById(id).isPresent() ? personRepository.getById(id) : new Person();
+	}
 }
