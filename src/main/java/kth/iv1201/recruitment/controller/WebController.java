@@ -1,12 +1,12 @@
 package kth.iv1201.recruitment.controller;
 
 import kth.iv1201.recruitment.entity.Person;
+import kth.iv1201.recruitment.entity.Summary;
 import kth.iv1201.recruitment.service.PersonService;
+import kth.iv1201.recruitment.service.SummaryService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller used by the thymeleaf views.
@@ -18,8 +18,10 @@ public class WebController {
 	private static final String DEFAULT_PAGE_URL = "/";
 	private static final String LOGIN_PAGE_URL = "/login";
 	private static final String HOME_PAGE_URL = "/home";
+	private static final String APPLICANT_SUMMARY_PAGE_URL = "/summary";
 
 	private final PersonService personService;
+	private final SummaryService summaryService;
 
 	/**
 	 * Constructor injection.
@@ -27,8 +29,9 @@ public class WebController {
 	 *
 	 * @param personService Dependency injection to controller.
 	 */
-	public WebController(PersonService personService) {
+	public WebController(PersonService personService, SummaryService summaryService) {
 		this.personService = personService;
+		this.summaryService = summaryService;
 	}
 
 	/**
@@ -66,5 +69,22 @@ public class WebController {
 			return LOGIN_PAGE_URL;
 		}
 		return REDIRECT_PREFIX_URL + HOME_PAGE_URL;
+	}
+
+	/**
+	 * TODO
+	 *
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@GetMapping(path = APPLICANT_SUMMARY_PAGE_URL + "/{id}/")
+	public String summary(@PathVariable int id, Model model) {
+		Summary summary = summaryService.getSummaryOfPersonBy(id);
+		model.addAttribute("id", summary.getId());
+		model.addAttribute("person", summary.getPerson());
+		model.addAttribute("availabilities", summary.getAvailabilities());
+		model.addAttribute("competences", summary.getCompetences());
+		return APPLICANT_SUMMARY_PAGE_URL;
 	}
 }
