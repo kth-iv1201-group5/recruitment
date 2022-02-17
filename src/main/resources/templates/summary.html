@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
+    <title>Application summary</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
+          integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 th:inline="text">[[${person.getFullName()}]] <span class="text-muted">#[[${id}]]</span></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <small style="font-weight: bold;">Role:</small>
+            <p th:inline="text">[[${person.getRole().getName()}]]</p>
+            <small style="font-weight: bold;">Social Security Number:</small>
+            <p th:inline="text">[[${person.getPnr()}]]</p>
+            <small style="font-weight: bold;">E-mail:</small>
+            <p th:inline="text">[[${person.getEmail()}]]</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Competence</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Competence</th>
+                        <th>Years of experience</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="competence : ${competences}">
+                        <td th:inline="text">[[${competence.getCompetence().getName()}]]</td>
+                        <td th:inline="text">[[${competence.getYearOfExperience()}]] years</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2>Availability</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Available periods</th>
+                                <th>Assign</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="availability : ${availabilities}">
+                                <td th:inline="text">[[${availability.getPeriod()}]]</td>
+                                <td>
+                                    <button class="btn btn-primary" type="button">Assign person</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
