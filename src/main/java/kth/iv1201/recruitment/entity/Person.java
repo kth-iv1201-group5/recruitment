@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Person entity
@@ -30,8 +27,9 @@ public class Person {
 	private String pnr;
 	private String email;
 	private String password;
-	@Column(name = "role_id")
-	private Integer role;
+	@OneToOne
+	@JoinColumn(name = "role_id")
+	private Role role;
 	private String username;
 
 	/**
@@ -50,5 +48,21 @@ public class Person {
 	 */
 	public String getUsername() {
 		return username;
+	}
+
+	public String getFullName() {
+		return name + " " + surname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getPnr() {
+		return pnr;
+	}
+
+	public Role getRole() {
+		return role;
 	}
 }
