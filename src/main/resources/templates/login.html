@@ -2,14 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
     <title>login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
           integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" crossorigin="anonymous">
 </head>
 <body>
-<center>
+<div class="container">
+    <section class="login-clean">
+        <form method="post" th:action="@{/login}">
+            <h2 class="visually-hidden">Login Form</h2>
+            <div class="illustration"><i class="icon ion-ios-navigate"></i></div>
+            <div class="mb-3"><input class="form-control" name="username" placeholder="Username" type="text"></div>
+            <div class="mb-3"><input class="form-control" name="password" placeholder="Password" type="password"></div>
+            <div class="mb-3">
+                <button class="btn btn-primary d-block w-100" type="submit">Log In</button>
+            </div>
+            <a class="forgot" href="#">Forgot your email or password?</a>
+            <span style="color: #FF0000; ">
+                <div class="card-header" th:text="${loggedIn}"> </div>
+            </span>
+        </form>
+    </section>
+</div>
+<!--<center>
     <h1> Recruitment application </h1>
-    <form th:action="@{/login}" method="post">
+    <form th:action="@{login}" method="post">
         <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
             <div class="card-header">Enter your credentials:</div>
             <span style="color: #FF0000; ">
@@ -29,7 +47,7 @@
             </div>
         </div>
     </form>
-</center>
+</center>-->
 
 </body>
 </html>
