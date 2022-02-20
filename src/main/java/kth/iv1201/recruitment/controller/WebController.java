@@ -23,6 +23,7 @@ public class WebController {
 	private static final String LOGIN_PAGE_URL = "/login";
 	private static final String HOME_PAGE_URL = "/home";
 	private static final String APPLICANT_SUMMARY_PAGE_URL = "/summary";
+	private static final String APPLICANTS_PAGE_URL = "/applicants";
 
 	private final PersonService personService;
 	private final AvailabilityService availabilityService;
@@ -73,19 +74,22 @@ public class WebController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam(value = "username") final String username, @RequestParam(value = "password") final String password, Model model) {
 		Person person = personService.authenticate(username, password);
-		String loggedIn = "Wrong credentials! Please try again";
-		model.addAttribute("loggedIn",loggedIn);
-
-		if (person.getUsername() == null && person.getPassword() == null) {
-
+		if (person == null) {
+			String loggedIn = "Wrong credentials! Please try again";
+			model.addAttribute("loggedIn", loggedIn);
 			return LOGIN_PAGE_URL;
 		}
-		return REDIRECT_PREFIX_URL + HOME_PAGE_URL;
-
-    // TODO EXTRACT this
-		// ArrayList <Person> applicants = personService.listApplicants();
-		// model.addAttribute("applicants",applicants);
+		return REDIRECT_PREFIX_URL + APPLICANTS_PAGE_URL;
 	}
+
+	@GetMapping(path = APPLICANTS_PAGE_URL)
+	public String applicants(Model model) {
+		// TODO Change to collection of year instead of just all applicants.
+		List<Person> applicants = personService.findAllApplicants();
+		model.addAttribute("applicants", applicants);
+		return APPLICANTS_PAGE_URL;
+	}
+
 	/**
 	 * Summary page.
 	 * Display applicant/recruiters information
@@ -104,19 +108,5 @@ public class WebController {
 		model.addAttribute("availabilities", availabilities);
 		model.addAttribute("competences", competences);
 		return APPLICANT_SUMMARY_PAGE_URL;
-	}
-
-	/**
-	 * This method redirects to a page with information about a users application
-	 * @param personId the id of the person
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/Application", method = RequestMethod.GET)
-
-	public String openApplication(@RequestParam("personId") final int personId, Model model) {
-
-
-		return "Application";
 	}
 }
