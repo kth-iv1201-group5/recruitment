@@ -2,6 +2,7 @@ name: Image deploy to Heroku
 on:
   workflow_run:
     workflows: [Image build and publish]
+    branches: [main]
     types:
       - completed
 jobs:
