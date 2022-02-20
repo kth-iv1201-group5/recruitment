@@ -71,14 +71,21 @@ public class WebController {
 	 * @return Either redirect the user to <code>/home</code> or back to same form with error message.
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam(value = "username") final String username, @RequestParam(value = "password") final String password) {
+	public String login(@RequestParam(value = "username") final String username, @RequestParam(value = "password") final String password, Model model) {
 		Person person = personService.authenticate(username, password);
+		String loggedIn = "Wrong credentials! Please try again";
+		model.addAttribute("loggedIn",loggedIn);
+
 		if (person.getUsername() == null && person.getPassword() == null) {
+
 			return LOGIN_PAGE_URL;
 		}
 		return REDIRECT_PREFIX_URL + HOME_PAGE_URL;
-	}
 
+    // TODO EXTRACT this
+		// ArrayList <Person> applicants = personService.listApplicants();
+		// model.addAttribute("applicants",applicants);
+	}
 	/**
 	 * Summary page.
 	 * Display applicant/recruiters information
@@ -97,5 +104,19 @@ public class WebController {
 		model.addAttribute("availabilities", availabilities);
 		model.addAttribute("competences", competences);
 		return APPLICANT_SUMMARY_PAGE_URL;
+	}
+
+	/**
+	 * This method redirects to a page with information about a users application
+	 * @param personId the id of the person
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/Application", method = RequestMethod.GET)
+
+	public String openApplication(@RequestParam("personId") final int personId, Model model) {
+
+
+		return "Application";
 	}
 }
