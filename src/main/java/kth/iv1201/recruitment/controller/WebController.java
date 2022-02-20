@@ -72,7 +72,7 @@ public class WebController {
 	 * @return Either redirect the user to <code>/home</code> or back to same form with error message.
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam(value = "username") final String username, @RequestParam(value = "password") final String password, Model model) {
+	public String login(@RequestParam(value = "username") final String username, @RequestParam(value = "password") final String password) {
 		Person person = personService.authenticate(username, password);
 		if (person == null) {
 			String loggedIn = "Wrong credentials! Please try again";
