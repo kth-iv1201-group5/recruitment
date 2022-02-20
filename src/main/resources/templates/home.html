@@ -40,7 +40,7 @@
     <tr>
     <tr th:each="applicants : ${applicants}">
     <td><form th:action="@{/Application}" method="get">
-        <button name="personId" th:value="${applicants.getId()}" >Upvote</button>
+        <button name="personId" th:value="${applicants.getId()}" >open application</button>
     </form></td>
 
     <td th:text="${applicants.getName()}"></td>

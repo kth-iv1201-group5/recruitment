@@ -46,6 +46,10 @@ public class PersonService {
 		}
 	}
 
+	/**
+	 * This method returns a list of all applicants
+	 * @return ArrayList<Person>
+	 */
 	public ArrayList<Person>listApplicants() {
 
 		ArrayList<Person> applicants = new ArrayList<Person>();

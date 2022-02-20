@@ -23,6 +23,13 @@ public class WebController {
 		return LOGIN_PAGE_URL;
 	}
 
+	/**
+	 * This method is for logging in
+	 * @param username The username of the person logging in
+	 * @param password The password of the person logging in
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam("username") final String username, @RequestParam("password") final String password , Model model) {
 		Person person = personService.authenticate(username, password);
@@ -39,10 +46,17 @@ public class WebController {
 		return "home";
 	}
 
+	/**
+	 * This method redirects to a page with information about a users application
+	 * @param personId the id of the person
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/Application", method = RequestMethod.GET)
+
 	public String openApplication(@RequestParam("personId") final int personId, Model model) {
 
-		System.out.println(personId);
+
 		return "Application";
 	}
 }
