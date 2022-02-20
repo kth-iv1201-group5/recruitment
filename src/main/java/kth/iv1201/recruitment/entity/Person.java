@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Person entity
@@ -30,8 +27,9 @@ public class Person {
 	private String pnr;
 	private String email;
 	private String password;
-	@Column(name = "role_id")
-	private Integer role;
+	@OneToOne
+	@JoinColumn(name = "role_id")
+	private Role role;
 	private String username;
 
 	/**
@@ -46,9 +44,18 @@ public class Person {
 	/**
 	 * Returns the username of current object.
 	 *
-	 * @return String of username.
+	 * @return String of name and appended surname.
 	 */
 	public String getUsername() {
 		return username;
+	}
+
+	/**
+	 * Returns the full name of user.
+	 *
+	 * @return String of name and appended surname.
+	 */
+	public String getFullName() {
+		return name + " " + surname;
 	}
 }
