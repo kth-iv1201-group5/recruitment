@@ -31,14 +31,14 @@ public class WebController {
 	private final CompetenceService competenceService;
 
 	/**
-	 * Constructor injection.
-	 * Inject <code>PersonService</code> to object.
+	 * Constructor injection. Inject <code>PersonService</code> to object.
 	 *
 	 * @param personService       Service which have functions only dedicated to person table.
 	 * @param availabilityService Service which have functions only dedicated to availability table.
 	 * @param competenceService   Service which have function only dedicated to competence table.
 	 */
-	public WebController(PersonService personService, AvailabilityService availabilityService, CompetenceService competenceService) {
+	public WebController(PersonService personService, AvailabilityService availabilityService,
+	                     CompetenceService competenceService) {
 		this.personService = personService;
 		this.availabilityService = availabilityService;
 		this.competenceService = competenceService;
@@ -47,7 +47,7 @@ public class WebController {
 	/**
 	 * Redirect the user to default route.
 	 *
-	 * @return Redirect user to Login page view.
+	 * @return Redirect user to Applications list page view.
 	 */
 	@GetMapping(DEFAULT_PAGE_URL)
 	public String showDefaultView() {
@@ -64,51 +64,68 @@ public class WebController {
 		return HOME_PAGE_URL;
 	}
 
+	/**
+	 * Redirect the user to login page.
+	 *
+	 * @return Redirect user to login page.
+	 */
 	@GetMapping(path = LOGIN_PAGE_URL)
 	public String showLoginView() {
 		return LOGIN_PAGE_URL;
 	}
 
 	/**
-	 * Used by the thymeleaf part of the project.
-	 * Sing in user after entering correct information from the form.
+	 * Used by the thymeleaf part of the project. Sing in user after entering correct information from the form.
 	 *
 	 * @param username User entered form input.
 	 * @param password Password entered form input.
-	 * @return Either redirect the user to <code>/home</code> or back to same form with error message.
+	 *
+	 * @return Either redirect the user to <code>/applications</code> or back to same form with error message.
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam(value = "username") final String username, @RequestParam(value = "password") final String password, Model model) {
+	public String login(@RequestParam(value = "username") final String username,
+	                    @RequestParam(value = "password") final String password) {
 		Person person = personService.authenticate(username, password);
 		if (person == null) {
-			String loggedIn = "Wrong credentials! Please try again";
-			model.addAttribute("loggedIn", loggedIn);
-			return LOGIN_PAGE_URL;
+			return REDIRECT_PREFIX_URL + LOGIN_ERROR_PAGE_URL;
 		}
 		return REDIRECT_PREFIX_URL + APPLICANTS_PAGE_URL;
 	}
 
-	// Login form with error
+	/**
+	 * User is redirected to error page.
+	 *
+	 * @param model Used for adding attribute to login page.
+	 *
+	 * @return Redirect user to login page with error message.
+	 */
 	@RequestMapping(path = LOGIN_ERROR_PAGE_URL)
 	public String loginError(Model model) {
 		model.addAttribute("loginError", true);
 		return LOGIN_PAGE_URL;
 	}
 
+	/**
+	 * Display list of applicants
+	 * TODO Change to collection of year instead of just all applicants.
+	 *
+	 * @param model Used for adding attribute to applications page.
+	 *
+	 * @return Redirect User to applications list.
+	 */
 	@GetMapping(path = APPLICANTS_PAGE_URL)
 	public String applicants(Model model) {
-		// TODO Change to collection of year instead of just all applicants.
 		List<Person> applicants = personService.findAllApplicants();
 		model.addAttribute("applicants", applicants);
 		return APPLICANTS_PAGE_URL;
 	}
 
 	/**
-	 * Summary page.
-	 * Display applicant/recruiters information
+	 * Summary page. Display applicant/recruiters information
 	 *
 	 * @param id    Person Id, used to identify fetching data.
 	 * @param model Used for adding attributes to 'html' page.
+	 *
 	 * @return Routes the user to Summary page.
 	 */
 	@GetMapping(path = APPLICANTS_PAGE_URL + "/{id}/")
