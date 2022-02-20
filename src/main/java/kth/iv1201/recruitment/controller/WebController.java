@@ -24,6 +24,7 @@ public class WebController {
 	private static final String HOME_PAGE_URL = "/home";
 	private static final String APPLICANT_SUMMARY_PAGE_URL = "/summary";
 	private static final String APPLICANTS_PAGE_URL = "/applicants";
+	private static final String LOGIN_ERROR_PAGE_URL = "/login-error";
 
 	private final PersonService personService;
 	private final AvailabilityService availabilityService;
@@ -50,7 +51,7 @@ public class WebController {
 	 */
 	@GetMapping(DEFAULT_PAGE_URL)
 	public String showDefaultView() {
-		return LOGIN_PAGE_URL;
+		return REDIRECT_PREFIX_URL + APPLICANTS_PAGE_URL;
 	}
 
 	/**
@@ -61,6 +62,11 @@ public class WebController {
 	@GetMapping(path = HOME_PAGE_URL)
 	public String home() {
 		return HOME_PAGE_URL;
+	}
+
+	@GetMapping(path = LOGIN_PAGE_URL)
+	public String showLoginView() {
+		return LOGIN_PAGE_URL;
 	}
 
 	/**
@@ -82,6 +88,13 @@ public class WebController {
 		return REDIRECT_PREFIX_URL + APPLICANTS_PAGE_URL;
 	}
 
+	// Login form with error
+	@RequestMapping(path = LOGIN_ERROR_PAGE_URL)
+	public String loginError(Model model) {
+		model.addAttribute("loginError", true);
+		return LOGIN_PAGE_URL;
+	}
+
 	@GetMapping(path = APPLICANTS_PAGE_URL)
 	public String applicants(Model model) {
 		// TODO Change to collection of year instead of just all applicants.
@@ -98,7 +111,7 @@ public class WebController {
 	 * @param model Used for adding attributes to 'html' page.
 	 * @return Routes the user to Summary page.
 	 */
-	@GetMapping(path = APPLICANT_SUMMARY_PAGE_URL + "/{id}/")
+	@GetMapping(path = APPLICANTS_PAGE_URL + "/{id}/")
 	public String summary(@PathVariable int id, Model model) {
 		Person person = personService.findById(id);
 		List<Availability> availabilities = availabilityService.findAllByPersonId(id);

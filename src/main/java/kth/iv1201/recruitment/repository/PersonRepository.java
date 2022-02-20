@@ -3,6 +3,7 @@ package kth.iv1201.recruitment.repository;
 import kth.iv1201.recruitment.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,9 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
 	 */
 	@Query(value = "SELECT OBJECT(p) FROM Person p WHERE p.username = :username AND p.password = :password")
 	Person findByUsernameAndPassword(String username, String password);
+
+	@Query(value = "SELECT p FROM Person p WHERE p.username = :username")
+	Person getUserByUsername(@Param("username") String username); // TODO change 'getUserByUsername' to 'findUserByUsername'
 
 	@Query(value = "SELECT OBJECT(p) FROM Person p WHERE p.role.id = 2")
 	List<Person> findAllApplicants();

@@ -18,8 +18,8 @@
     <tr>
     <tr th:each="applicants : ${applicants}">
         <td>
-            <button class="btn btn-primary" th:onclick="|window.location.href='/summary/${applicants.getId()}/'|">
-                Upvote
+            <button class="btn btn-primary" th:onclick="|window.location.href='/applicants/${applicants.getId()}/'|">
+                Show applicant
             </button>
         </td>
         <td th:text="${applicants.getName()}"></td>
