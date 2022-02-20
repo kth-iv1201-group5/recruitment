@@ -23,6 +23,7 @@ public class WebController {
 	private static final String LOGIN_PAGE_URL = "/login";
 	private static final String HOME_PAGE_URL = "/home";
 	private static final String APPLICANT_SUMMARY_PAGE_URL = "/summary";
+	private static final String APPLICANTS_PAGE_URL = "/applicants";
 
 	private final PersonService personService;
 	private final AvailabilityService availabilityService;
@@ -71,12 +72,22 @@ public class WebController {
 	 * @return Either redirect the user to <code>/home</code> or back to same form with error message.
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam(value = "username") final String username, @RequestParam(value = "password") final String password) {
+	public String login(@RequestParam(value = "username") final String username, @RequestParam(value = "password") final String password, Model model) {
 		Person person = personService.authenticate(username, password);
-		if (person.getUsername() == null && person.getPassword() == null) {
+		if (person == null) {
+			String loggedIn = "Wrong credentials! Please try again";
+			model.addAttribute("loggedIn", loggedIn);
 			return LOGIN_PAGE_URL;
 		}
-		return REDIRECT_PREFIX_URL + HOME_PAGE_URL;
+		return REDIRECT_PREFIX_URL + APPLICANTS_PAGE_URL;
+	}
+
+	@GetMapping(path = APPLICANTS_PAGE_URL)
+	public String applicants(Model model) {
+		// TODO Change to collection of year instead of just all applicants.
+		List<Person> applicants = personService.findAllApplicants();
+		model.addAttribute("applicants", applicants);
+		return APPLICANTS_PAGE_URL;
 	}
 
 	/**

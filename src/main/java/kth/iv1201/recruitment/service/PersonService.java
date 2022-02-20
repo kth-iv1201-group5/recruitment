@@ -4,6 +4,8 @@ import kth.iv1201.recruitment.entity.Person;
 import kth.iv1201.recruitment.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * This is our service layer for fetching information from <code>Person</code> database layer.
  */
@@ -43,5 +45,9 @@ public class PersonService {
 	 */
 	public Person findById(Integer id) {
 		return personRepository.findById(id).isPresent() ? personRepository.getById(id) : new Person();
+	}
+
+	public List<Person> findAllApplicants() {
+		return personRepository.findAllApplicants();
 	}
 }

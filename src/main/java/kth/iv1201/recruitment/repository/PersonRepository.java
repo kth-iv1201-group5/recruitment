@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * This object is used for communicating with the database.
  * It uses the JPARepository as extension as it provides a better ORM to the developer for fetching code.
@@ -22,6 +24,9 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
 	 * @param password User entered password.
 	 * @return Person object which may contain information if found or return empty if the query was not successfully.
 	 */
-	@Query(value = "SELECT OBJECT(p) FROM Person p WHERE p.username = ?1 AND p.password = ?2")
+	@Query(value = "SELECT OBJECT(p) FROM Person p WHERE p.username = :username AND p.password = :password")
 	Person findByUsernameAndPassword(String username, String password);
+
+	@Query(value = "SELECT OBJECT(p) FROM Person p WHERE p.role.id = 2")
+	List<Person> findAllApplicants();
 }
