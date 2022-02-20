@@ -12,62 +12,70 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * Security configuration for web security. Authorization and authentication for specific routes.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/home", "/applicants**").authenticated()
-                .and().formLogin()
-                .loginPage("/login")
-                .failureUrl("/login-error")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .clearAuthentication(true)
-                .deleteCookies()
-                .permitAll();
-        /**
-         * .antMatchers("/login").permitAll()
-         *                 .antMatchers("/").permitAll()
-         *                 .antMatchers("/home").authenticated()
-         *                 .and().formLogin()
-         *                 .loginPage("/login")
-         *                 .permitAll()
-         *                 .and()
-         *                 .logout()
-         *                 .clearAuthentication(true)
-         *                 .deleteCookies()
-         *                 .permitAll();
-         */
-    }
+	/**
+	 * Configuration for Web security.
+	 *
+	 * @param http Used for giving authorization and authentication and as well of exception handling of failed url.
+	 *
+	 * @throws Exception If one of the parameter are not correct configured.
+	 */
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests().antMatchers("/home", "/applicants**").authenticated().and().formLogin().loginPage(
+				"/login").failureUrl("/login-error").permitAll().and().logout().logoutUrl("/logout").clearAuthentication(true).deleteCookies().permitAll();
+	}
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
+	/**
+	 * Configure for Authentication Manager.
+	 *
+	 * @param auth Authentication manager builder for authenticate provider.
+	 *
+	 * @throws Exception When parameter are not made correctly.
+	 */
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(authenticationProvider());
+	}
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new SecurityUserDetailsService();
-    }
+	/**
+	 * Instantiate a UserDetailsService
+	 *
+	 * @return a newly created Security user detail service.
+	 */
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return new SecurityUserDetailsService();
+	}
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(getPasswordEncoder());
+	/**
+	 * Sets configuration for the provider. Provider of UserDetails. Provider of Password Encoder.
+	 *
+	 * @return Configured provider.
+	 */
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		authProvider.setUserDetailsService(userDetailsService());
+		authProvider.setPasswordEncoder(getPasswordEncoder());
+		return authProvider;
+	}
 
-        return authProvider;
-    }
-
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
+	/**
+	 * Select type of encoding.
+	 * TODO change deprecated password encoder.
+	 *
+	 * @return Instance of NoOpPasswordEncoder.
+	 */
+	@Bean
+	public PasswordEncoder getPasswordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
+	}
 
 }
