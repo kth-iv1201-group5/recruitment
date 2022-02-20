@@ -7,47 +7,90 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 
+/**
+ * User details used by Security layer.
+ */
 public class SecurityUserDetails implements UserDetails {
 
-    private Person person;
+	private final Person person;
 
-    public SecurityUserDetails(Person person) {
-        this.person = person;
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param person Entity of Person.
+	 */
+	public SecurityUserDetails(Person person) {
+		this.person = person;
+	}
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("1");
-        return Arrays.asList(authority);
-    }
+	/**
+	 * Collection of authorities.
+	 *
+	 * @return collection of authorities
+	 */
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		SimpleGrantedAuthority authority = new SimpleGrantedAuthority("1");
+		return Arrays.asList(authority);
+	}
 
-    @Override
-    public String getPassword() {
-        return person.getPassword();
-    }
+	/**
+	 * Return password of the user.
+	 *
+	 * @return Return password of the user.
+	 */
+	@Override
+	public String getPassword() {
+		return person.getPassword();
+	}
 
-    @Override
-    public String getUsername() {
-        return person.getUsername();
-    }
+	/**
+	 * Return username of the user.
+	 *
+	 * @return Return username of the user.
+	 */
+	@Override
+	public String getUsername() {
+		return person.getUsername();
+	}
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+	/**
+	 * Default value to the account being non expired.
+	 *
+	 * @return true
+	 */
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+	/**
+	 * Default value to the account being non locked.
+	 *
+	 * @return true
+	 */
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+	/**
+	 * Default value to the credentials being non expired.
+	 *
+	 * @return true
+	 */
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	/**
+	 * Enabling...
+	 *
+	 * @return true
+	 */
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }
