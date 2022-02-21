@@ -1,136 +1,116 @@
 # Recruitment
+
 > Apply for a job, get approved for the job. This is some random tagline that might need to change.
 
-A brief description of your project, what it is used for and how does life get
-awesome when someone starts to use it.
-
 This project is tasked by the course IV1201, Design of Global Applications, at KTH, Stockholm, Sweden.  
-The project is about creating a recruitment platform where guests can apply for jobs and recruiter can read and approve the applicant.  
+The project is about creating a recruitment platform where guests can apply for jobs and recruiter can read and approve
+the applicant.
 
+## Installing / Getting started
 
-## [TBA] Installing / Getting started
-
-A quick introduction of the minimal setup you need to get a hello world up &
-running.
-
-```shell
-packagemanager install awesome-project
-awesome-project start
-awesome-project "Do something!"  # prints "Nah."
-```
-
-Here you should say what actually happens when you execute the code above.
-
-### [TBA] Initial Configuration
-
-Some projects require initial configuration (e.g. access tokens or keys, `npm i`).
-This is the section where you would document those requirements.
-
-## [TBA] Developing
-
-Here's a brief intro about what a developer must do in order to start developing
-the project further:
+This project is built on Spring boot together with Thymeleaf and PostgresSQL as the database. To get started you can run
+these commands.
 
 ```shell
-git clone https://github.com/your/awesome-project.git
-cd awesome-project/
-packagemanager install
+./mvnw clean install
+./mvnw spring-boot:run
 ```
 
-And state what happens step-by-step.
+### If you have problem with database not connecting
 
-### [TBA] Building
+If you have postgres problem it may be that the default parameter is not the same.
 
-If your project needs some additional steps for the developer to build the
-project after some code changes, state them here:
+1. First download your example database from project description in Canvas.
+2. Move the downloaded SQL file to `/src/main/resources/`.
+3. In your terminal move to `/src/main/resources/`.
+4. Enter the command to start database in detached mode:
 
 ```shell
-./configure
-make
-make install
+docker run -it -d -p 5432:5432 --rm --volume=$(pwd):/data --workdir=/data --name=iv1201_db \
+-e POSTGRES_USERNAME=postgres \
+-e POSTGRES_PASSWORD=postgres \
+-e POSTGRES_DB="iv1201" \
+postgres:13-alpine
 ```
 
-Here again you should state what actually happens when the code above gets
-executed.
-
-### [TBA] Deploying / Publishing
-
-In case there's some step you have to take that publishes this project to a
-server, this is the right time to state it.
+5. In the same directory run this command to import database to docker database:
 
 ```shell
-packagemanager deploy awesome-project -s server.com -u username -p password
+docker exec -i iv1201_db psql -U postgres -W postgres -d iv1201 < ./existing-database.sql
 ```
 
-And again you'd need to tell what the previous code actually does.
+### Initial Configuration
 
-## [TBA] Features
+This project makes use of some known environment variables that are used in the production which makes stuff easier.
 
-What's all the bells and whistles this project can perform?
-* What's the main functionality
-* You can also do another thing
-* If you get really randy, you can even do this
-
-## [TBA] Configuration
-
-Here you should write what are all of the configurations a user can enter when
-using the project.
-
-#### Argument 1
-Type: `String`  
-Default: `'default value'`
-
-State what an argument does and how you can use it. If needed, you can provide
-an example below.
-
-Example:
-```bash
-awesome-project "Some other value"  # Prints "You're nailing this readme!"
+```.env
+PORT=8080
+H2CONSOLE=true
+DEBUG=true
+JDBC_DATABASE_URL=postgresql://localhost:5432/iv1201
+POSTGRES_USERNAME=postgres
+POSTGRES_PASSWORD=postgres
 ```
 
-#### [TBA] Argument 2
-Type: `Number|Boolean`  
-Default: 100
+It also good idea to start the project with `./mvnw clean install`
 
-Copy-paste as many of these as you need.
+## Developing
 
-## [TBA] Contributing
+For contributers you can clone down the repository and start working directly. Follow the issue stated in GitHub for
+better view on what you can be working one.
 
-When you publish something open source, one of the greatest motivations is that
-anyone can just jump in and start contributing to your project.
+```shell
+git clone https://github.com/kth-iv1201-group5/recruitment.git
+cd recruitment/
+./mvnw clean install
+```
 
-These paragraphs are meant to welcome those kind souls to feel that they are
-needed. You should state something like:
+Follow the steps about **docker** configurations above. You can then run the command.
 
-"If you'd like to contribute, please fork the repository and use a feature
-branch. Pull requests are warmly welcome."
+```shell
+./mvnw spring-boot:run
+```
 
-If there's anything else the developer needs to know (e.g. the code style
+Here again you should state what actually happens when the code above gets executed.
+
+### Deploying / Publishing
+
+This project is deployed at Heroku and uses the addon for PostgresSQL. The environment variables below are added in your
+GitHub repository to be able to use the actions happening.
+
+```env
+HEROKU_API_KEY=GET-FROM-HEROKU
+HEROKU_APP_NAME=GET-FROM-HEROKU
+HEROKU_EMAIL=GET-FROM-HEROKU
+```
+
+## Features
+
+This project will fulfill these functionalities:
+
+* User authentication.
+* User registration.
+* Applicant application for jobs.
+* Recruiter overview of all applicants.
+* Application summary.
+
+## Contributing
+
+If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
+
+<!-- If there's anything else the developer needs to know (e.g. the code style
 guide), you should link it here. If there's a lot of things to take into
 consideration, it is common to separate this section to its own file called
-`CONTRIBUTING.md` (or similar). If so, you should say that it exists here.
+`CONTRIBUTING.md` (or similar). If so, you should say that it exists here. -->
 
-## [TBA] Links
+## Links
 
-Even though this information can be found inside the project on machine-readable
-format like in a .json file, it's good to include a summary of most useful
-links to humans using your project. You can include links like:
+- Project homepage: https://recruitment-group5.herokuapp.com
+- Repository: https://github.com/kth-iv1201-group5/recruitment
+- Issue tracker: https://github.com/kth-iv1201-group5/recruitment/issues
+  - In case of sensitive bugs like security vulnerabilities, please contact my@email.com directly instead of using issue
+    tracker. We value your effort to improve the security and privacy of this project!
 
-- Project homepage: https://your.github.com/awesome-project/
-- Repository: https://github.com/your/awesome-project/
-- Issue tracker: https://github.com/your/awesome-project/issues
-  - In case of sensitive bugs like security vulnerabilities, please contact
-    my@email.com directly instead of using issue tracker. We value your effort
-    to improve the security and privacy of this project!
-- Related projects:
-  - Your other project: https://github.com/your/other-project/
-  - Someone else's project: https://github.com/someones/awesome-project/
+## Licensing
 
-
-## [TBA] Licensing
-
-One really important part: Give your project a proper license. Here you should
-state what the license is and how to find the text version of the license.
-Something like:
-
-"The code in this project is licensed under MIT license."
+The code in this project is licensed under MIT license.

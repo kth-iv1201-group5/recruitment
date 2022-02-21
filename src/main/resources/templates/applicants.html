@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Applicants</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
+          integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
+</head>
+<body>
+
+<table class="table table-bordered">
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Personnumber</th>
+        <th>Email</th>
+    <tr>
+    <tr th:each="applicants : ${applicants}">
+        <td>
+            <button class="btn btn-primary" th:onclick="|window.location.href='/applicants/${applicants.getId()}/'|">
+                Show applicant
+            </button>
+        </td>
+        <td th:text="${applicants.getName()}"></td>
+        <td th:text="${applicants.getSurname}"></td>
+        <td th:text="${applicants.getPnr()}"></td>
+        <td th:text="${applicants.getEmail()}"></td>
+    </tr>
+</table>
+</body>
+</html>
