@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
           integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
-    <title>Title</title>
+    <title th:text="${errorTitle}"></title>
 </head>
 <body>
 <center>
     <div>
         <h1>Something went wrong! </h1>
-        <h2>Our engineers are on it!</h2>
+        <h2 th:text="${errorMessage}"></h2>
         <a href="/">
             <button>Go Home</button>
         </a>
