@@ -8,6 +8,7 @@
           integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" crossorigin="anonymous">
 </head>
 <body>
+<div th:include="navbar"/>
 <div class="container">
     <section class="login-clean">
         <form method="post" th:action="@{/login}">
@@ -27,6 +28,7 @@
         </form>
     </section>
 </div>
+<div th:include="footer"></div>
 
 </body>
 </html>
