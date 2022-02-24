@@ -7,7 +7,7 @@
           integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
 </head>
 <body>
-
+<div th:include="navbar"/>
 <table class="table table-bordered">
     <tr>
         <th></th>
@@ -28,5 +28,6 @@
         <td th:text="${applicants.getEmail()}"></td>
     </tr>
 </table>
+<div th:include="footer"></div>
 </body>
 </html>

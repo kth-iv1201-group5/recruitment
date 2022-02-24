@@ -51,7 +51,7 @@ public class WebController {
 	 */
 	@GetMapping(DEFAULT_PAGE_URL)
 	public String showDefaultView() {
-		return REDIRECT_PREFIX_URL + APPLICANTS_PAGE_URL;
+		return REDIRECT_PREFIX_URL + HOME_PAGE_URL;
 	}
 
 	/**

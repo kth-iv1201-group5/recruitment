@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
     <title>Home</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
+          integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
+
 </head>
 <body>
-<h1>Home Page</h1>
+<header class="header-blue">
+    <div th:include="navbar"></div>
+    <div class="container hero">
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-5 offset-xl-1 text-start">
+                <h1 class="fw-bold">Recruiting staff for the coming season!</h1>
+                <p>Yellow Lund is now recruiting staff for the up coming season! Are you an artist in word class that
+                    likes to be in the spotlight? Then we may be the one we are looking for!</p>
+                <button class="btn btn-outline-primary btn-lg action-button"
+                        th:onclick="|window.location.href='/applicants'|"
+                        type="button">Join us
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+<div th:include="footer"></div>
 </body>
 </html>
