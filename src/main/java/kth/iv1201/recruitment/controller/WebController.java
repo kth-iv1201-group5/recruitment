@@ -139,4 +139,14 @@ public class WebController {
 		model.addAttribute("competences", competences);
 		return APPLICANT_SUMMARY_PAGE_URL;
 	}
+
+	/**
+	 * Returns the page where applicants can see available positions
+	 * @return
+	 */
+	@RequestMapping(value = "/positions")
+	public String positions() {
+
+		return "/positions";
+	}
 }
