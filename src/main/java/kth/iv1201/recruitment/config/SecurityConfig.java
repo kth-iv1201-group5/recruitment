@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * Security configuration for web security. Authorization and authentication for specific routes.
@@ -29,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/applicants/**").authenticated().and().formLogin().loginPage(
-				"/login").failureUrl("/login-error").permitAll().and().logout().logoutUrl("/logout").clearAuthentication(true).deleteCookies().permitAll();
+				"/login").failureUrl("/login-error").permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.logoutSuccessUrl("/login").clearAuthentication(true).deleteCookies().invalidateHttpSession(true).permitAll();
 	}
 
 	/**
