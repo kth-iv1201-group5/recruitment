@@ -8,6 +8,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * This is our service layer for fetching information from <code>User details</code> at the security layer.
+ */
 @Service
 public class SecurityUserDetailsService implements UserDetailsService {
 
