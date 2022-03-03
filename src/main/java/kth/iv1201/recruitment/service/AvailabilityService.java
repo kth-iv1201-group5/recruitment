@@ -2,6 +2,8 @@ package kth.iv1201.recruitment.service;
 
 import kth.iv1201.recruitment.entity.Availability;
 import kth.iv1201.recruitment.repository.AvailabilityRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 @Service
 public class AvailabilityService {
 
+	private static final Logger logger = LoggerFactory.getLogger(AvailabilityService.class);
 	private final AvailabilityRepository availabilityRepository;
 
 	/**
@@ -32,6 +35,8 @@ public class AvailabilityService {
 	 * @return list of availabilities.
 	 */
 	public List<Availability> findAllByPersonId(Integer id) {
+		logger.info("Server is fetching availabilities from database.");
+		logger.info("Server successfully fetched availabilities from database.");
 		return availabilityRepository.findAllByPersonId(id);
 	}
 }

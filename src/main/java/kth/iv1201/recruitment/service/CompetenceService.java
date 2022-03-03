@@ -2,6 +2,8 @@ package kth.iv1201.recruitment.service;
 
 import kth.iv1201.recruitment.entity.CompetenceProfile;
 import kth.iv1201.recruitment.repository.CompetenceRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
  */
 @Service
 public class CompetenceService {
+	private static final Logger logger = LoggerFactory.getLogger(CompetenceService.class);
 	private final CompetenceRepository competenceRepository;
 
 	/**
@@ -31,6 +34,8 @@ public class CompetenceService {
 	 * @return list of competence profiles.
 	 */
 	public List<CompetenceProfile> findAllByPersonId(Integer id) {
+		logger.info("Server is fetching competences profiles from database.");
+		logger.info("Server successfully fetched competences profiles from database.");
 		return competenceRepository.findAllByPersonId(id);
 	}
 }
