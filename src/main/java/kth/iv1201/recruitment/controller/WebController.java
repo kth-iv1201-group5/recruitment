@@ -128,7 +128,7 @@ public class WebController {
 	 *
 	 * @return Routes the user to Summary page.
 	 */
-	@GetMapping(path = APPLICANTS_PAGE_URL + "/{id}/")
+	@GetMapping(path = APPLICANTS_PAGE_URL + "/{id}")
 	public String summary(@PathVariable int id, Model model) {
 		Person person = personService.findById(id);
 		List<Availability> availabilities = availabilityService.findAllByPersonId(id);
