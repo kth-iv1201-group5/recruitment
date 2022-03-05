@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
-    <title>login</title>
+    <title th:text="#{head.login}">login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
           integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" crossorigin="anonymous">
 </head>
@@ -12,17 +12,19 @@
 <div class="container">
     <section class="login-clean">
         <form method="post" th:action="@{/login}">
-            <h2 class="visually-hidden">Login Form</h2>
+            <h2 class="visually-hidden" th:text="#{login.heading}">Login Form</h2>
             <div class="illustration"><i class="icon ion-ios-navigate"></i></div>
-            <div class="mb-3"><input class="form-control" name="username" placeholder="Username" type="text"></div>
-            <div class="mb-3"><input class="form-control" name="password" placeholder="Password" type="password"></div>
+            <div class="mb-3"><input class="form-control" name="username" placeholder="Username"
+                                     th:placeholder="#{login.username}" type="text"></div>
+            <div class="mb-3"><input class="form-control" name="password" placeholder="Password"
+                                     th:placeholder="#{login.password}" type="password"></div>
             <div class="mb-3">
-                <button class="btn btn-primary d-block w-100" type="submit">Log In</button>
+                <button class="btn btn-primary d-block w-100" th:text="#{login.btn.login}" type="submit">Log In</button>
             </div>
-            <a class="forgot" href="#">Forgot your email or password?</a>
+            <a class="forgot" href="#" th:text="#{login.btn.forgot-password}">Forgot your email or password?</a>
             <span style="color: #FF0000;" th:if="${loginError}">
                 <div class="card-header">
-                    <span>Wrong credentials! Please try again</span>
+                    <span th:text="#{login.error}">Wrong credentials! Please try again</span>
                 </div>
             </span>
         </form>
