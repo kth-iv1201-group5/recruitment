@@ -138,5 +138,36 @@ public class WebController {
 		model.addAttribute("availabilities", availabilities);
 		model.addAttribute("competences", competences);
 		return APPLICANT_SUMMARY_PAGE_URL;
+
+
 	}
+
+	/**
+	 * User is redirected to page for restoring password
+	 * @return Page for restoring password
+	 */
+	@GetMapping (path = "/restore")
+	public String restorePassword() {
+		return "/restore";
+	}
+
+	/**
+	 *
+	 * @param email email for the user that wants a new password
+	 * @return page for the status
+	 */
+	@RequestMapping(value = "/restore-status", method = RequestMethod.POST)
+	public String restore(@RequestParam(value = "email") final String email,Model model) {
+		if(email.contains("@")) {
+			return "/restore-status";
+		}else{
+			String emailError = "Wrong email, Try again!";
+			model.addAttribute("emailError", emailError);
+			return "/restore";
+		}
+						 }
+
+
+
+
 }
