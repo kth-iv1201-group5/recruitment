@@ -29,8 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/applicants/**").authenticated().and().formLogin().loginPage(
-				"/login").failureUrl("/login-error").permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		http.authorizeRequests()
+        .antMatchers("/applicants/**").access("hasRole('ROLE_recruiter')")
+        .antMatchers("/positions").access("hasRole('ROLE_applicant')")
+        .and().formLogin().loginPage("/login").failureUrl("/login-error").permitAll()
+        .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutSuccessUrl("/login").clearAuthentication(true).deleteCookies().invalidateHttpSession(true).permitAll();
 	}
 
