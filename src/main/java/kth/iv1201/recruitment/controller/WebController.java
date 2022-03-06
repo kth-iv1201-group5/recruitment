@@ -25,6 +25,7 @@ public class WebController {
 	private static final String APPLICANT_SUMMARY_PAGE_URL = "/summary";
 	private static final String APPLICANTS_PAGE_URL = "/applicants";
 	private static final String LOGIN_ERROR_PAGE_URL = "/login-error";
+	private static final String POSITION_PAGE_URL = "/positions";
 
 	private final PersonService personService;
 	private final AvailabilityService availabilityService;
@@ -138,5 +139,14 @@ public class WebController {
 		model.addAttribute("availabilities", availabilities);
 		model.addAttribute("competences", competences);
 		return APPLICANT_SUMMARY_PAGE_URL;
+	}
+
+	/**
+	 * Returns the page where applicants can see available positions
+	 * @return
+	 */
+	@RequestMapping(value = POSITION_PAGE_URL)
+	public String positions() {
+		return POSITION_PAGE_URL;
 	}
 }
