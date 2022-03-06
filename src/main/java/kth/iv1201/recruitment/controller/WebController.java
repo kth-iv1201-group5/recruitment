@@ -3,6 +3,7 @@ package kth.iv1201.recruitment.controller;
 import kth.iv1201.recruitment.entity.Availability;
 import kth.iv1201.recruitment.entity.CompetenceProfile;
 import kth.iv1201.recruitment.entity.Person;
+import kth.iv1201.recruitment.model.SendMail;
 import kth.iv1201.recruitment.service.AvailabilityService;
 import kth.iv1201.recruitment.service.CompetenceService;
 import kth.iv1201.recruitment.service.PersonService;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -159,6 +162,16 @@ public class WebController {
 	@RequestMapping(value = "/restore-status", method = RequestMethod.POST)
 	public String restore(@RequestParam(value = "email") final String email,Model model) {
 		if(email.contains("@")) {
+			//TODO generate password and uppdate data base
+			// Email is supposed to be email of the user
+			SendMail sender = new SendMail();
+			try {
+				sender.sendmail("iv1201.group5@gmail.com","PASSWORD");
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return "/restore-status";
 		}else{
 			String emailError = "Wrong email, Try again!";
