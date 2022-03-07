@@ -9,6 +9,9 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Properties;
 
+/**
+ * Component use for sending email to client.
+ */
 @Component
 public class SendMail {
 
@@ -30,6 +33,14 @@ public class SendMail {
 		properties.put("mail.smtp.port", "587");
 	}
 
+	/**
+	 * Sends a email with the new password.
+	 *
+	 * @param toEmail  Recipient
+	 * @param password New password
+	 *
+	 * @throws Exception Failed to send a email.
+	 */
 	public void sendEmailOfNewPassword(String toEmail, String password) throws Exception {
 		try {
 			Message message = createNewPasswordRequestMessage(toEmail, password);
