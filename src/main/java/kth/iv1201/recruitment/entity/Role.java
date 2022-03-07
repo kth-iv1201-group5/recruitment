@@ -11,9 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Availability entity
- * Which contains information of Availability object.
- * It has annotation of <code>@Entity, @Data, @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
+ * Availability entity Which contains information of Availability object. It has annotation of <code>@Entity, @Data,
+ *
+ * @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
  */
 @Entity
 @Data
@@ -26,4 +26,13 @@ public class Role {
 	@Column(name = "role_id")
 	private Integer id;
 	private String name;
+
+	/**
+	 * Returns name of role.
+	 *
+	 * @return String of role name.
+	 */
+	public String getName() {
+		return name;
+	}
 }
