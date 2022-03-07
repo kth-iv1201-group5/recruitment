@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 /**
- * Person entity
- * Which contains information of Person object.
- * It has annotation of <code>@Entity, @Data, @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
+ * Person entity Which contains information of Person object. It has annotation of <code>@Entity, @Data,
+ *
+ * @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
  */
 @Entity
 @Data
@@ -57,5 +57,41 @@ public class Person {
 	 */
 	public String getFullName() {
 		return name + " " + surname;
+	}
+
+	/**
+	 * Returns the email of user.
+	 *
+	 * @return String of email address.
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * Updates the users password
+	 *
+	 * @param password Parameter used for updating object users password.
+	 */
+	public void updatePassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * Returns the id of user.
+	 *
+	 * @return Integer of user id.
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Returns the role of user.
+	 *
+	 * @return Role object of user.
+	 */
+	public Role getRole() {
+		return role;
 	}
 }
