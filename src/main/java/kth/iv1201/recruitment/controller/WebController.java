@@ -7,6 +7,8 @@ import kth.iv1201.recruitment.model.SendMail;
 import kth.iv1201.recruitment.service.AvailabilityService;
 import kth.iv1201.recruitment.service.CompetenceService;
 import kth.iv1201.recruitment.service.PersonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,8 @@ import java.util.List;
 @Controller
 public class WebController {
 
+	private static final Logger logger = LoggerFactory.getLogger(WebController.class);
+
 	private static final String REDIRECT_PREFIX_URL = "redirect:";
 	private static final String DEFAULT_PAGE_URL = "/";
 	private static final String LOGIN_PAGE_URL = "/login";
@@ -28,6 +32,7 @@ public class WebController {
 	private static final String APPLICANT_SUMMARY_PAGE_URL = "/summary";
 	private static final String APPLICANTS_PAGE_URL = "/applicants";
 	private static final String LOGIN_ERROR_PAGE_URL = "/login-error";
+	private static final String POSITION_PAGE_URL = "/positions";
 
 	private final PersonService personService;
 	private final AvailabilityService availabilityService;
@@ -88,10 +93,13 @@ public class WebController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam(value = "username") final String username,
 	                    @RequestParam(value = "password") final String password) {
+		logger.info("User is requesting to be authenticated.");
 		Person person = personService.authenticate(username, password);
 		if (person == null) {
+			logger.error("User failed to be authenticated.");
 			return REDIRECT_PREFIX_URL + LOGIN_ERROR_PAGE_URL;
 		}
+		logger.info("User is authenticated.");
 		return REDIRECT_PREFIX_URL + APPLICANTS_PAGE_URL;
 	}
 
@@ -141,46 +149,51 @@ public class WebController {
 		model.addAttribute("availabilities", availabilities);
 		model.addAttribute("competences", competences);
 		return APPLICANT_SUMMARY_PAGE_URL;
+	}
 
-
+	/**
+	 * Returns the page where applicants can see available positions
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = POSITION_PAGE_URL)
+	public String positions() {
+		return POSITION_PAGE_URL;
 	}
 
 	/**
 	 * User is redirected to page for restoring password
+	 *
 	 * @return Page for restoring password
 	 */
-	@GetMapping (path = "/restore")
+	@GetMapping(path = "/restore")
 	public String restorePassword() {
 		return "/restore";
 	}
 
 	/**
-	 *
 	 * @param email email for the user that wants a new password
+	 *
 	 * @return page for the status
 	 */
 	@RequestMapping(value = "/restore-status", method = RequestMethod.POST)
-	public String restore(@RequestParam(value = "email") final String email,Model model) {
-		if(email.contains("@")) {
-			//TODO generate password and uppdate data base
+	public String restore(@RequestParam(value = "email") final String email, Model model) {
+		if (email.contains("@")) {
+			// TODO generate password and update data base
 			// Email is supposed to be email of the user
 			SendMail sender = new SendMail();
 			try {
-				sender.sendmail("iv1201.group5@gmail.com","PASSWORD");
-			} catch (MessagingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+				sender.sendmail("iv1201.group5@gmail.com", "PASSWORD");
+			} catch (MessagingException | IOException e) {
 				e.printStackTrace();
 			}
 			return "/restore-status";
-		}else{
+		} else {
 			String emailError = "Wrong email, Try again!";
 			model.addAttribute("emailError", emailError);
 			return "/restore";
 		}
-						 }
-
-
+	}
 
 
 }
