@@ -11,6 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Competence entity with translated names.
+ */
 @Entity
 @Data
 @NoArgsConstructor
