@@ -1,9 +1,11 @@
 package kth.iv1201.recruitment.service;
 
 import kth.iv1201.recruitment.entity.CompetenceProfile;
+import kth.iv1201.recruitment.entity.CompetenceTranslation;
 import kth.iv1201.recruitment.repository.CompetenceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -53,7 +55,19 @@ public class CompetenceService {
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public List<CompetenceProfile> findAllByPersonId(Integer id) {
 		logger.info("Server is fetching competences profiles from database.");
+		List<CompetenceProfile> profiles = competenceRepository.findAllByPersonId(id);
+		if (LocaleContextHolder.getLocale().getLanguage().equals("sv")) {
+			logger.info("Fetching Swedish translation of competence.");
+			for (CompetenceProfile profile : profiles) {
+				profile.updateCompetenceByLanguage(findCompetence(profile.getCompetence().getId()));
+			}
+			logger.info("Completed fetching Swedish translation of competence.");
+		}
 		logger.info("Server successfully fetched competences profiles from database.");
-		return competenceRepository.findAllByPersonId(id);
+		return profiles;
+	}
+
+	private CompetenceTranslation findCompetence(Integer id) {
+		return competenceRepository.findByLanguageSV(id);
 	}
 }
