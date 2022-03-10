@@ -2,15 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Applicants</title>
+    <title th:text="#{head.apply}">Applicants</title>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
           integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
 </head>
 <body>
 <div th:include="navbar"/>
 <div>
-    <h1> Here you can apply for available positions </h1>
-    <span>No available positions</span>
+    <h1 th:text="#{apply.header}">Here you can apply for available positions</h1>
+    <span th:text="#{apply.positions.empty}">No available positions</span>
 </div>
 <div th:include="footer"></div>
 </body>
