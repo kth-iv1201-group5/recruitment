@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 /**
- * CompetenceProfile entity
- * Which contains information of CompetenceProfile object.
- * It has annotation of <code>@Entity, @Data, @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
+ * CompetenceProfile entity Which contains information of CompetenceProfile object. It has annotation of <code>@Entity,
+ *
+ * @Data, @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
  */
 @Entity
 @Data
@@ -29,4 +29,22 @@ public class CompetenceProfile {
 	private Competence competence;
 	@Column(name = "years_of_experience")
 	private Double yearOfExperience;
+
+	/**
+	 * Return Competence object.
+	 *
+	 * @return competence of current profile.
+	 */
+	public Competence getCompetence() {
+		return competence;
+	}
+
+	/**
+	 * Update competence with new translated competence.
+	 *
+	 * @param competence Translated competence.
+	 */
+	public void updateCompetenceByLanguage(CompetenceTranslation competence) {
+		this.competence = competence.toCompetence();
+	}
 }
