@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
-    <title>Application summary</title>
+    <title th:text="#{head.summary}">Application summary</title>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
           integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
 </head>
@@ -19,23 +19,23 @@
     </div>
     <div class="row">
         <div class="col">
-            <small style="font-weight: bold;">Role:</small>
+            <small style="font-weight: bold;" th:text="#{summary.role}">Role:</small>
             <p class="text-capitalize" th:inline="text">[[${person.getRole().getName()}]]</p>
-            <small style="font-weight: bold;">Social Security Number:</small>
+            <small style="font-weight: bold;" th:text="#{summary.ssn}">Social Security Number:</small>
             <p th:inline="text">[[${person.getPnr()}]]</p>
-            <small style="font-weight: bold;">E-mail:</small>
+            <small style="font-weight: bold;" th:text="#{summary.e-mail}">E-mail:</small>
             <p th:inline="text">[[${person.getEmail()}]]</p>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <h2>Competence</h2>
+            <h2 th:text="#{summary.competences}">Competence</h2>
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Competence</th>
-                        <th>Years of experience</th>
+                        <th th:text="#{summary.competence}">Competence</th>
+                        <th th:text="#{summary.year-experience}">Years of experience</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -46,15 +46,15 @@
                     </tbody>
                 </table>
             </div>
-            <h2>Availability</h2>
+            <h2 th:text="#{summary.availability}">Availability</h2>
             <div class="row">
                 <div class="col">
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Available periods</th>
-                                <th>Assign</th>
+                                <th th:text="#{summary.availability.periods}">Available periods</th>
+                                <th th:text="#{summary.btn.assign}">Assign</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -63,7 +63,7 @@
                                 <td>
                                     <button class="btn"
                                             th:classappend="${availability.isActive() ? 'btn-primary' : 'disabled'}"
-                                            type="button">Assign person
+                                            th:text="#{summary.btn.assign}" type="button">Assign person
                                     </button>
                                 </td>
                             </tr>
