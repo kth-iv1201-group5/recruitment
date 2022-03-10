@@ -27,6 +27,11 @@ public class CompetenceTranslation {
 	private String language;
 	private String name;
 
+	/**
+	 * Return competence object with the translated text.
+	 *
+	 * @return new object of competence with translated values.
+	 */
 	public Competence toCompetence() {
 		return new Competence(id, name);
 	}
