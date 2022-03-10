@@ -181,7 +181,7 @@ public class WebController {
 	@RequestMapping(value = RESTORE_STATUS_PAGE_URL, method = RequestMethod.POST)
 	public String restore(@RequestParam(value = "email") final String email, Model model) {
 		if (!email.contains("@")) {
-			model.addAttribute("emailError", "Wrong email, Try again!");
+			model.addAttribute("missingEmail", true);
 			return RESTORE_PAGE_URL;
 		}
 		boolean isEmailSent = emailService.sendNewPasswordRequest(email);
