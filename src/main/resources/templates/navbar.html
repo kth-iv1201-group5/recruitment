@@ -12,26 +12,42 @@
 <nav class="navbar navbar-dark navbar-expand-md bg-dark navigation-clean-search margin-space">
     <div class="container-fluid">
         <a class="navbar-brand"
-           th:onclick="|window.location.href='/home/'|">Yellow Lund</a>
-        <button class="btn navbar-text" sec:authorize="isAuthenticated()"
-                th:onclick="|window.location.href='/applicants'|">Dashboard
+           th:onclick="|window.location.href='/home'|">Yellow Lund</a>
+        <button class="btn navbar-text" sec:authorize="isAuthenticated() && hasRole('ROLE_recruiter')"
+                th:onclick="|window.location.href='/applicants'|" th:text="#{navbar.btn.dashboard}">Dashboard
+        </button>
+        <button class="btn navbar-text" sec:authorize="!hasRole('ROLE_recruiter')"
+                th:onclick="|window.location.href='/positions'|">Apply
         </button>
         <div class="collapse navbar-collapse row justify-content-end" id="navcol-1">
             <div sec:authorize="isAnonymous()">
                 <button class="ms-auto btn action-button navbar-text btn-outline-primary"
-                        th:onclick="|window.location.href='/login'|">
+                        th:onclick="|window.location.href='/login'|" th:text="#{navbar.btn.login}">
                     Log in
                 </button>
                 <button class="ms-auto btn action-button navbar-text btn-outline-secondary"
-                        th:onclick="|window.location.href='/login'|">
+                        th:onclick="|window.location.href='/login'|" th:text="#{navbar.btn.signup}">
                     Sign up
                 </button>
             </div>
             <div sec:authorize="isAuthenticated()">
                 <button class="ms-auto btn action-button navbar-text btn-outline-primary"
-                        th:onclick="|window.location.href='/login'|">
+                        th:onclick="|window.location.href='/logout'|" th:text="#{navbar.btn.logout}">
                     Log out
                 </button>
+            </div>
+            <div>
+                <div th:if="${#locale.getLanguage() != 'sv'}">
+                    <button class="ms-auto btn action-button navbar-text btn-outline-info">
+                        <a th:href="@{?lang=sv}" th:text="#{navbar.lang.sv}">Swedish</a>
+                    </button>
+                </div>
+                <div th:if="${#locale.getLanguage() != 'en'}">
+                    <button class="ms-auto btn action-button navbar-text btn-outline-info">
+                        <a th:href="@{?lang=en}" th:text="#{navbar.lang.en}">English</a>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>

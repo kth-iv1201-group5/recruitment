@@ -1,16 +1,19 @@
 package kth.iv1201.recruitment.config;
 
 import kth.iv1201.recruitment.service.SecurityUserDetailsService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * Security configuration for web security. Authorization and authentication for specific routes.
@@ -18,6 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Value(value = "${spring.websecurity.debug}")
+	private boolean webSecurityDebug;
+
 
 	/**
 	 * Configuration for Web security.
@@ -28,8 +35,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/applicants/**").authenticated().and().formLogin().loginPage(
-				"/login").failureUrl("/login-error").permitAll().and().logout().logoutUrl("/logout").clearAuthentication(true).deleteCookies().permitAll();
+		http.authorizeRequests()
+        .antMatchers("/applicants/**").access("hasRole('ROLE_recruiter')")
+        .antMatchers("/positions").access("hasRole('ROLE_applicant')")
+        .and().formLogin().loginPage("/login").failureUrl("/login-error").permitAll()
+        .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.logoutSuccessUrl("/login").clearAuthentication(true).deleteCookies().invalidateHttpSession(true).permitAll();
 	}
 
 	/**
@@ -42,6 +53,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
+	}
+
+	/**
+	 * Enable Debug in Spring Security.
+	 *
+	 * @param web WebSecurity object.
+	 *
+	 * @throws Exception When parameter are not made correctly.
+	 */
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.debug(webSecurityDebug);
 	}
 
 	/**
@@ -69,13 +92,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	/**
 	 * Select type of encoding.
-	 * TODO change deprecated password encoder.
 	 *
-	 * @return Instance of NoOpPasswordEncoder.
+	 * @return Instance of BCryptPasswordEncoder.
 	 */
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
+		return new BCryptPasswordEncoder(10);
 	}
 
 }
