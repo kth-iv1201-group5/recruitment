@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
@@ -17,7 +17,8 @@
                 <h1 class="fw-bold" th:text="#{home.heading}"></h1>
                 <p th:text="#{home.body}"></p>
                 <button class="btn btn-outline-primary btn-lg action-button"
-                        th:onclick="|window.location.href='/applicants'|"
+                        sec:authorize="!hasRole('ROLE_recruiter')"
+                        th:onclick="|window.location.href='/positions'|"
                         th:text="#{home.btn.apply}" type="button">
                 </button>
             </div>
