@@ -23,14 +23,28 @@ public class Competence {
 	private Integer id;
 	private String name;
 
+	/**
+	 * Empty constructor
+	 */
 	public Competence() {
 	}
 
+	/**
+	 * Constructor with all attributes.
+	 *
+	 * @param id   Competence id
+	 * @param name Competence name
+	 */
 	public Competence(Integer id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 
+	/**
+	 * Return competence id
+	 *
+	 * @return id.
+	 */
 	public Integer getId() {
 		return id;
 	}
