@@ -11,10 +11,18 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
+/**
+ * Language configuration for setting default language and parameter for changing language.
+ */
 @Configuration
 @ComponentScan(basePackages = "kth.iv1201.recruitment.config")
 public class LanguageConfig implements WebMvcConfigurer {
 
+	/**
+	 * Setting default language to english.
+	 *
+	 * @return Session Locale resolve of current default Locale.
+	 */
 	@Bean
 	public LocaleResolver localeResolver() {
 		SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
@@ -22,6 +30,11 @@ public class LanguageConfig implements WebMvcConfigurer {
 		return sessionLocaleResolver;
 	}
 
+	/**
+	 * State what makes language change by parameter.
+	 *
+	 * @return Settings for Locale Change Interceptor.
+	 */
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {
 		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
@@ -29,6 +42,11 @@ public class LanguageConfig implements WebMvcConfigurer {
 		return interceptor;
 	}
 
+	/**
+	 * Updated current InterceptorRegistry with locale interceptor.
+	 *
+	 * @param registry Add locale change interceptor.
+	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(localeChangeInterceptor());
