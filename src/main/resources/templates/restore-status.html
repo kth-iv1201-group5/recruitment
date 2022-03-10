@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
-    <title>Home</title>
+    <title th:text="#{head.restore.status}">Home</title>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
           integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
 
@@ -14,12 +14,11 @@
     <div class="container hero">
         <div class="row">
             <div class="col-12 col-lg-6 col-xl-5 offset-xl-1 text-start">
-                <h1 class="fw-bold">A new password has been sent to your email</h1>
-                <span style="color: #FF0000;" th:if="${emailError}">
-                <div class="card-header">
-                    <span>Wrong email, try again!</span>
+                <h1 class="fw-bold" th:text="#{restore.status.header}">A new password has been sent to your email</h1>
+                <div class="card-header" th:if="${emailError}">
+                    <span class="text-warning" th:text="#{restore.status.body}">Wrong email, try again!</span>
                 </div>
-            </span></div>
+            </div>
         </div>
     </div>
 </header>
