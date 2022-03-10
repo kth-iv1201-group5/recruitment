@@ -11,16 +11,17 @@
 <div th:include="navbar"/>
 <div class="container hero">
     <h1 th:text="#{restore.header}">Restore password </h1>
+    <div th:text="#{restore.body}">Enter your email to get your new password sent to you</div>
     <form method="post" th:action="@{/restore-status}">
-        <div th:text="#{restore.body}">Enter your email to get your new password sent to you</div>
-        <div class="mb-3"><input class="form-control" name="email" placeholder="email" type="email"></div>
+        <div class="mb-3"><input class="form-control" name="email" placeholder="email" required type="email"></div>
         <div class="mb-3">
             <button class="btn btn-primary d-block w-100" th:text="#{restore.btn.send}" type="submit">Send request
             </button>
-            <div th:if="${missingEmail}">
-                <span class="text-warning" th:text="#{restore.status.body}"
-            </div>
         </div>
+    </form>
+    <div th:if="${missingEmail}">
+        <span class="text-warning" th:text="#{restore.status.body}"></span>
+    </div>
 </div>
 <div th:include="footer"></div>
 </body>
