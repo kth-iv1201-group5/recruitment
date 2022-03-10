@@ -5,6 +5,7 @@ import kth.iv1201.recruitment.entity.CompetenceProfile;
 import kth.iv1201.recruitment.entity.Person;
 import kth.iv1201.recruitment.service.AvailabilityService;
 import kth.iv1201.recruitment.service.CompetenceService;
+import kth.iv1201.recruitment.service.EmailService;
 import kth.iv1201.recruitment.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +31,13 @@ public class WebController {
 	private static final String APPLICANTS_PAGE_URL = "/applicants";
 	private static final String LOGIN_ERROR_PAGE_URL = "/login-error";
 	private static final String POSITION_PAGE_URL = "/positions";
+	public static final String RESTORE_PAGE_URL = "/restore";
+	public static final String RESTORE_STATUS_PAGE_URL = "/restore-status";
 
 	private final PersonService personService;
 	private final AvailabilityService availabilityService;
 	private final CompetenceService competenceService;
+	private final EmailService emailService;
 
 	/**
 	 * Constructor injection. Inject <code>PersonService</code> to object.
@@ -43,10 +47,11 @@ public class WebController {
 	 * @param competenceService   Service which have function only dedicated to competence table.
 	 */
 	public WebController(PersonService personService, AvailabilityService availabilityService,
-	                     CompetenceService competenceService) {
+	                     CompetenceService competenceService, EmailService emailService) {
 		this.personService = personService;
 		this.availabilityService = availabilityService;
 		this.competenceService = competenceService;
+		this.emailService = emailService;
 	}
 
 	/**
@@ -150,10 +155,41 @@ public class WebController {
 
 	/**
 	 * Returns the page where applicants can see available positions
-	 * @return
+	 *
+	 * @return route for page for applicant.
 	 */
 	@RequestMapping(value = POSITION_PAGE_URL)
 	public String positions() {
 		return POSITION_PAGE_URL;
 	}
+
+	/**
+	 * User is redirected to page for restoring password
+	 *
+	 * @return Page for restoring password
+	 */
+	@GetMapping(path = RESTORE_PAGE_URL)
+	public String restorePassword() {
+		return RESTORE_PAGE_URL;
+	}
+
+	/**
+	 * @param email email for the user that wants a new password
+	 *
+	 * @return page for the status
+	 */
+	@RequestMapping(value = RESTORE_STATUS_PAGE_URL, method = RequestMethod.POST)
+	public String restore(@RequestParam(value = "email") final String email, Model model) {
+		if (!email.contains("@")) {
+			model.addAttribute("emailError", "Wrong email, Try again!");
+			return RESTORE_PAGE_URL;
+		}
+		boolean isEmailSent = emailService.sendNewPasswordRequest(email);
+		if (!isEmailSent) {
+			return RESTORE_PAGE_URL;
+		}
+		return RESTORE_STATUS_PAGE_URL;
+	}
+
+
 }

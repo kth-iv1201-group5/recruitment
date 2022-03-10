@@ -4,12 +4,14 @@ import kth.iv1201.recruitment.entity.Person;
 import kth.iv1201.recruitment.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * This is our service layer for fetching information from <code>Person</code> database layer.
@@ -117,6 +119,23 @@ public class PersonService {
 			return new Person();
 		}
 		logger.info("Server successfully fetched user from database.");
+		return person;
+	}
+
+	/**
+	 * Create a new password for user and saves it in database.
+	 *
+	 * @param email User email.
+	 *
+	 * @return Person object with a newly created password.
+	 */
+	@Transactional(isolation = Isolation.SERIALIZABLE)
+	public Person createNewPasswordForUser(String email) {
+		String newPassword = new Random().ints(33, 126).limit(10).collect(StringBuilder::new,
+				StringBuilder::appendCodePoint, StringBuilder::append).toString();
+		Person person = personRepository.findByEmail(email);
+		person.updatePassword(newPassword);
+		personRepository.updateWithNewPassword(person.getId(), new BCryptPasswordEncoder(10).encode(newPassword));
 		return person;
 	}
 }

@@ -19,7 +19,7 @@
             <div class="mb-3">
                 <button class="btn btn-primary d-block w-100" type="submit">Log In</button>
             </div>
-            <a class="forgot" href="#">Forgot your email or password?</a>
+            <a class="forgot" href="#" th:onclick="|window.location.href='/restore'|">Forgot your email or password?</a>
             <span style="color: #FF0000;" th:if="${loginError}">
                 <div class="card-header">
                     <span>Wrong credentials! Please try again</span>
