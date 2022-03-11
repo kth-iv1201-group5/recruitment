@@ -184,6 +184,10 @@ public class WebController {
 			model.addAttribute("missingEmail", true);
 			return RESTORE_PAGE_URL;
 		}
+		if (email.contains("guest@guest.com") || email.contains("admin@admin.com")) {
+			model.addAttribute("notRequestAble", true);
+			return RESTORE_PAGE_URL;
+		}
 		boolean isEmailSent = emailService.sendNewPasswordRequest(email);
 		if (!isEmailSent) {
 			return RESTORE_PAGE_URL;

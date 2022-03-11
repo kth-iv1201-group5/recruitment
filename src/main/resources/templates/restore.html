@@ -22,6 +22,9 @@
     <div th:if="${missingEmail}">
         <span class="text-warning" th:text="#{restore.status.body}"></span>
     </div>
+    <div th:if="${notRequestAble}">
+        <span class="text-warning" th:text="#{restore.status.not.request.able}"></span>
+    </div>
 </div>
 <div th:include="footer"></div>
 </body>
