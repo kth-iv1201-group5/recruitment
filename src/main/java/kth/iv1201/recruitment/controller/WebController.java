@@ -78,20 +78,20 @@ public class WebController {
 	 * Redirect the user to login page.
 	 *
 	 * @return Redirect user to login page.
-	 */
+
 	@GetMapping(path = LOGIN_PAGE_URL)
 	public String showLoginView() {
 		return LOGIN_PAGE_URL;
 	}
-
+*/
 	/**
-	 * Used by the thymeleaf part of the project. Sing in user after entering correct information from the form.
+	 * Used by the thymeleaf part of the project. Sign in user after entering correct information from the form.
 	 *
 	 * @param username User entered form input.
 	 * @param password Password entered form input.
 	 *
 	 * @return Either redirect the user to <code>/applications</code> or back to same form with error message.
-	 */
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam(value = "username") final String username,
 	                    @RequestParam(value = "password") final String password) {
@@ -104,20 +104,20 @@ public class WebController {
 		logger.info("User is authenticated.");
 		return REDIRECT_PREFIX_URL + APPLICANTS_PAGE_URL;
 	}
-
+*/
 	/**
 	 * User is redirected to error page.
 	 *
 	 * @param model Used for adding attribute to login page.
 	 *
 	 * @return Redirect user to login page with error message.
-	 */
+
 	@RequestMapping(path = LOGIN_ERROR_PAGE_URL)
 	public String loginError(Model model) {
 		model.addAttribute("loginError", true);
 		return LOGIN_PAGE_URL;
 	}
-
+*/
 	/**
 	 * Display list of applicants
 	 * TODO Change to collection of year instead of just all applicants.
