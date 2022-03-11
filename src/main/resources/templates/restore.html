@@ -13,7 +13,8 @@
     <h1 th:text="#{restore.header}">Restore password </h1>
     <div th:text="#{restore.body}">Enter your email to get your new password sent to you</div>
     <form method="post" th:action="@{/restore-status}">
-        <div class="mb-3"><input class="form-control" name="email" placeholder="email" required type="email"></div>
+        <div class="mb-3"><input class="form-control" name="email" placeholder="email" required
+                                 th:placeholder="#{restore.input.email}" type="email"></div>
         <div class="mb-3">
             <button class="btn btn-primary d-block w-100" th:text="#{restore.btn.send}" type="submit">Send request
             </button>
