@@ -125,14 +125,14 @@ public class WebController {
 	 * @param model Used for adding attribute to applications page.
 	 *
 	 * @return Redirect User to applications list.
-	 */
+
 	@GetMapping(path = APPLICANTS_PAGE_URL)
 	public String applicants(Model model) {
 		List<Person> applicants = personService.findAllApplicants();
 		model.addAttribute("applicants", applicants);
 		return APPLICANTS_PAGE_URL;
 	}
-
+*/
 	/**
 	 * Summary page. Display applicant/recruiters information
 	 *
@@ -140,7 +140,7 @@ public class WebController {
 	 * @param model Used for adding attributes to 'html' page.
 	 *
 	 * @return Routes the user to Summary page.
-	 */
+
 	@GetMapping(path = APPLICANTS_PAGE_URL + "/{id}")
 	public String summary(@PathVariable int id, Model model) {
 		Person person = personService.findById(id);
@@ -152,7 +152,7 @@ public class WebController {
 		model.addAttribute("competences", competences);
 		return APPLICANT_SUMMARY_PAGE_URL;
 	}
-
+*/
 	/**
 	 * Returns the page where applicants can see available positions
 	 *
