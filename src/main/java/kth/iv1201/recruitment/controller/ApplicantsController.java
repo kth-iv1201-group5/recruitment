@@ -25,6 +25,7 @@ public class ApplicantsController {
 
     private static final String APPLICANT_SUMMARY_PAGE_URL = "/summary";
     private static final String APPLICANTS_PAGE_URL = "/applicants";
+    private static final String POSITION_PAGE_URL = "/positions";
 
     private final PersonService personService;
     private final AvailabilityService availabilityService;
@@ -44,7 +45,6 @@ public class ApplicantsController {
      * TODO Change to collection of year instead of just all applicants.
      *
      * @param model Used for adding attribute to applications page.
-     *
      * @return Redirect User to applications list.
      */
     @GetMapping(path = APPLICANTS_PAGE_URL)
@@ -59,7 +59,6 @@ public class ApplicantsController {
      *
      * @param id    Person Id, used to identify fetching data.
      * @param model Used for adding attributes to 'html' page.
-     *
      * @return Routes the user to Summary page.
      */
     @GetMapping(path = APPLICANTS_PAGE_URL + "/{id}")
@@ -73,4 +72,15 @@ public class ApplicantsController {
         model.addAttribute("competences", competences);
         return APPLICANT_SUMMARY_PAGE_URL;
     }
+
+    /**
+     * Returns the page where applicants can see available positions
+     *
+     * @return route for page for applicant.
+     */
+    @RequestMapping(value = POSITION_PAGE_URL)
+    public String positions() {
+        return POSITION_PAGE_URL;
+    }
+
 }

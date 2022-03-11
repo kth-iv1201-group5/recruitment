@@ -58,22 +58,22 @@ public class WebController {
 	 * Redirect the user to default route.
 	 *
 	 * @return Redirect user to Applications list page view.
-	 */
+
 	@GetMapping(DEFAULT_PAGE_URL)
 	public String showDefaultView() {
 		return REDIRECT_PREFIX_URL + HOME_PAGE_URL;
 	}
-
+*/
 	/**
 	 * Redirect the user to home page.
 	 *
 	 * @return Redirect user to home page view.
-	 */
+
 	@GetMapping(path = HOME_PAGE_URL)
 	public String home() {
 		return HOME_PAGE_URL;
 	}
-
+*/
 	/**
 	 * Redirect the user to login page.
 	 *
@@ -167,17 +167,17 @@ public class WebController {
 	 * User is redirected to page for restoring password
 	 *
 	 * @return Page for restoring password
-	 */
+
 	@GetMapping(path = RESTORE_PAGE_URL)
 	public String restorePassword() {
 		return RESTORE_PAGE_URL;
 	}
-
+*/
 	/**
 	 * @param email email for the user that wants a new password
 	 *
 	 * @return page for the status
-	 */
+
 	@RequestMapping(value = RESTORE_STATUS_PAGE_URL, method = RequestMethod.POST)
 	public String restore(@RequestParam(value = "email") final String email, Model model) {
 		if (!email.contains("@")) {
@@ -189,7 +189,7 @@ public class WebController {
 			return RESTORE_PAGE_URL;
 		}
 		return RESTORE_STATUS_PAGE_URL;
-	}
+	}*/
 
 
 }
