@@ -65,6 +65,11 @@ public class EmailService {
 		return true;
 	}
 
+	/**
+	 * Send email about newly created account
+	 *
+	 * @param person Person entity.
+	 */
 	public void sendNewAccount(Person person) {
 		SendMail mail = new SendMail(userName, password);
 		try {

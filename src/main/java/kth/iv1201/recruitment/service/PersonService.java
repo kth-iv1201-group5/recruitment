@@ -140,17 +140,37 @@ public class PersonService {
 		return person;
 	}
 
+	/**
+	 * Check if email is taken.
+	 *
+	 * @param person Person entity.
+	 *
+	 * @return Checks if the email is taken.
+	 */
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public boolean isEmailTaken(Person person) {
 		return personRepository.findByEmail(person.getEmail()) != null;
 	}
 
+	/**
+	 * Check if username is taken
+	 *
+	 * @param person Person entity.
+	 *
+	 * @return Checks if the username is taken.
+	 */
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public boolean isUsernameTaken(Person person) {
 		return personRepository.findByUsername(person.getUsername()) != null;
 	}
 
-
+	/**
+	 * Creates a new account.
+	 *
+	 * @param person Person
+	 *
+	 * @return new account.
+	 */
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public Person createAccount(Person person) {
 		person.setRole(new Role(1, "applicant"));
