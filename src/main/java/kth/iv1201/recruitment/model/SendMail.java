@@ -19,6 +19,9 @@ public class SendMail {
 	private String userName;
 	private String password;
 
+	/**
+	 * Constructor for this object
+	 */
 	public SendMail() {
 		initProperties();
 	}
@@ -33,7 +36,12 @@ public class SendMail {
 		this.password = password;
 	}
 
-	public SendMail(String username) {
+	/**
+	 * Constructor for this object with argument of username.
+	 *
+	 * @param username username of sender
+	 */
+	public SendMail(@Value(value = "${smtp.from.user}") String username) {
 		initProperties();
 		this.userName = username;
 	}
@@ -82,6 +90,14 @@ public class SendMail {
 		});
 	}
 
+	/**
+	 * Sends email of newly created account.
+	 *
+	 * @param toEmail  Recipient
+	 * @param username Newly created account username
+	 *
+	 * @throws Exception Failed to send a email.
+	 */
 	public void sendEmailOfNewAccount(String toEmail, String username) throws Exception {
 		try {
 			Message message = createNewAccountMessage(toEmail, username);
@@ -97,8 +113,8 @@ public class SendMail {
 		message.setFrom(new InternetAddress(userName, false));
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
 		message.setSubject("[IV1201] Welcome to Yellow Lund!");
-		message.setContent("<h1>Thank you for your registration!</h1>" +
-				"<p>You can now log in to the account with the username: <b>" + username + "</b></p>", "text/html");
+		message.setContent("<h1>Thank you for your registration!</h1>" + "<p>You can now log in to the account with " +
+				"the username: <b>" + username + "</b></p>", "text/html");
 		message.setSentDate(new Date());
 		return message;
 	}
