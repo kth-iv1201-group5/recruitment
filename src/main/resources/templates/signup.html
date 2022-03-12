@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{head.signup}">Sign up</title>
+</head>
+<body>
+<div th:include="navbar"></div>
+<div class="container">
+    <div class="form-container">
+        <form id="signUpForm" method="post" th:action="@{/signup}" th:object="${signUpForm}">
+            <h2 class="text-center" th:text="#{signup.header}"></h2>
+            <div class="row mb-3">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label>
+                        <span th:text="#{signup.label.firstname}">First name</span>
+                        <input class="form-control" name="first-name" placeholder="First name" required
+                               th:field="*{firstname}" th:placeholder="#{signup.input.firstname}" type="text">
+                        <span class="text-warning" th:if="${invalidFirstNameLength}"
+                              th:text="#{signup.msg.firstname}"></span>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label>
+                        <span th:text="#{signup.label.lastname}">Last name</span>
+                        <input class="form-control" name="last-name" placeholder="Last name" required
+                               th:field="*{lastname}" th:placeholder="#{signup.input.lastname}" type="text">
+                        <span class="text-warning" th:if="${invalidLastNameLength}"
+                              th:text="#{signup.msg.lastname}"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label>
+                        <span th:text="#{signup.label.ssn}">Enter social security number</span>
+                        <input class="form-control" name="ssn" placeholder="YYMMDD-XXXX" required
+                               th:field="*{ssn}" th:placeholder="#{signup.input.ssn}" type="text">
+                        <span class="text-warning" th:if="${invalidSSN}"
+                              th:text="#{signup.msg.ssn}"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label>
+                        <span th:text="#{signup.label.email}">Enter email</span>
+                        <input class="form-control" name="email" placeholder="Email" required
+                               th:field="*{email}" th:placeholder="#{signup.input.email}" type="email">
+                        <span class="text-warning" th:if="${invalidEmail}"
+                              th:text="#{signup.msg.email}"></span>
+                        <span class="text-warning" th:if="${emailIsTaken}" th:text="#{signup.msg.email.taken}"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label>
+                        <span th:text="#{signup.label.username}">Enter username</span>
+                        <input class="form-control" name="username" placeholder="Username" required
+                               th:field="*{username}" th:placeholder="#{signup.input.username}" type="text">
+                        <span class="text-warning" th:if="${invalidUsernameLength}"
+                              th:text="#{signup.msg.username}"></span>
+                        <span class="text-warning" th:if="${usernameIsTaken}"
+                              th:text="#{signup.msg.username.taken}"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label>
+                        <span th:text="#{signup.label.password}">Enter password</span>
+                        <input class="form-control" name="password" placeholder="Password" required
+                               th:field="*{password}" th:placeholder="#{signup.input.password}" type="password">
+                        <span class="text-warning" th:if="${invalidPassword}"
+                              th:text="#{signup.msg.invalid.password}"></span>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label>
+                        <span th:text="#{signup.label.re.password}">Re-enter password</span>
+                        <input class="form-control" name="confirm-password" placeholder="Re-enter password"
+                               required
+                               th:field="*{rePassword}" th:placeholder="#{signup.input.password}" type="password">
+                        <span class="text-warning" th:if="${invalidPassword}"
+                              th:text="#{signup.msg.invalid.password}"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary d-block w-100" th:text="#{signup.btn.create}" type="submit">Create
+                    account
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:include="footer"></div>
+</body>
+</html>
