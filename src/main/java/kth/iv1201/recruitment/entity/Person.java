@@ -8,7 +8,7 @@ import javax.persistence.*;
 /**
  * Person entity Which contains information of Person object. It has annotation of <code>@Entity, @Data,
  *
- * @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
+ * @Builder, @Table</code> for better and consist readability.
  */
 @Entity
 @Data
@@ -29,9 +29,16 @@ public class Person {
 	private Role role;
 	private String username;
 
+	/**
+	 * Empty constructor
+	 */
 	public Person() {
 	}
 
+
+	/**
+	 * Constructor without id
+	 */
 	public Person(String name, String surname, String pnr, String email, String password, String username) {
 		this.name = name;
 		this.surname = surname;
@@ -41,6 +48,10 @@ public class Person {
 		this.username = username;
 	}
 
+
+	/**
+	 * Constructor with all attributes.
+	 */
 	public Person(Integer id, String name, String surname, String pnr, String email, String password, Role role,
 	              String username) {
 		this.id = id;
@@ -53,6 +64,9 @@ public class Person {
 		this.username = username;
 	}
 
+	/**
+	 * Constructor out of a previous entity, used for copying the entity.
+	 */
 	public Person(Person person) {
 		this.id = person.getId();
 		this.name = person.getName();
@@ -64,14 +78,29 @@ public class Person {
 		this.username = person.getUsername();
 	}
 
+	/**
+	 * Returns the social security number.
+	 *
+	 * @return returns the entity ssn.
+	 */
 	public String getPnr() {
 		return pnr;
 	}
 
+	/**
+	 * Return the surname of entity.
+	 *
+	 * @return Return the surname of entity.
+	 */
 	public String getSurname() {
 		return surname;
 	}
 
+	/**
+	 * Returns the first name of entity.
+	 *
+	 * @return first name of entity.
+	 */
 	public String getName() {
 		return name;
 	}
@@ -130,6 +159,11 @@ public class Person {
 		return id;
 	}
 
+	/**
+	 * Sets id
+	 *
+	 * @param id Sets the entity id.
+	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -143,6 +177,11 @@ public class Person {
 		return role;
 	}
 
+	/**
+	 * Set the role
+	 *
+	 * @param role Sets the entity role.
+	 */
 	public void setRole(Role role) {
 		this.role = role;
 	}
