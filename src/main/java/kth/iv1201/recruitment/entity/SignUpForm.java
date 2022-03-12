@@ -36,11 +36,21 @@ public class SignUpForm {
 	@NotNull
 	private String rePassword;
 
+	/**
+	 * Convert the form to an Person entity.
+	 *
+	 * @return new Object of Person entity.
+	 */
 	public Person toPerson() {
 		return new Person(firstname, lastname, ssn, email, password, username);
 	}
 
-	public boolean isPasswordValid() {
+	/**
+	 * Validate if password is the same as re-entered password.
+	 *
+	 * @return true if equal otherwise false.
+	 */
+	private boolean isPasswordValid() {
 		return password.equals(rePassword);
 	}
 
@@ -48,26 +58,58 @@ public class SignUpForm {
 		return text.length() >= 2 && text.length() <= 30;
 	}
 
-	public boolean isFirstNameLengthValid() {
+	/**
+	 * Check if first name has a valid length.
+	 *
+	 * @return First name has valid length.
+	 */
+	private boolean isFirstNameLengthValid() {
 		return isValidLength(firstname);
 	}
 
-	public boolean isLastNameValid() {
+	/**
+	 * Check if last name has a valid length.
+	 *
+	 * @return Last name has valid length.
+	 */
+	private boolean isLastNameValid() {
 		return isValidLength(lastname);
 	}
 
-	public boolean isUsernameValid() {
+	/**
+	 * Check if username has a valid length.
+	 *
+	 * @return Username has valid length.
+	 */
+	private boolean isUsernameValid() {
 		return isValidLength(username);
 	}
 
-	public boolean isEmailValid() {
-		return email.contains("@");
+	/**
+	 * Does the email contain necessary characters.
+	 *
+	 * @return Is the email a valid input.
+	 */
+	private boolean isEmailValid() {
+		return email.matches(".+\\@.+\\..+");
 	}
 
-	public boolean isSSNValid() {
+	/**
+	 * Regex validation for social security number.
+	 *
+	 * @return Checks if the ssn is valid.
+	 */
+	private boolean isSSNValid() {
 		return ssn.matches("^\\d{6}(?:\\d{2})?[-\\s]?\\d{4}$");
 	}
 
+	/**
+	 * Validate form.
+	 *
+	 * @param model Used for storing the invalid input form..
+	 *
+	 * @return Check if the form is valid.
+	 */
 	public boolean validate(Model model) {
 		boolean isValid = true;
 		if (!isFirstNameLengthValid()) {
