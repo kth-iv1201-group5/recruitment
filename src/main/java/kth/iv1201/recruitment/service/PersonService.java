@@ -1,6 +1,7 @@
 package kth.iv1201.recruitment.service;
 
 import kth.iv1201.recruitment.entity.Person;
+import kth.iv1201.recruitment.entity.Role;
 import kth.iv1201.recruitment.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,6 +137,28 @@ public class PersonService {
 		Person person = personRepository.findByEmail(email);
 		person.updatePassword(newPassword);
 		personRepository.updateWithNewPassword(person.getId(), new BCryptPasswordEncoder(10).encode(newPassword));
+		return person;
+	}
+
+	@Transactional(isolation = Isolation.SERIALIZABLE)
+	public boolean isEmailTaken(Person person) {
+		return personRepository.findByEmail(person.getEmail()) != null;
+	}
+
+	@Transactional(isolation = Isolation.SERIALIZABLE)
+	public boolean isUsernameTaken(Person person) {
+		return personRepository.findByUsername(person.getUsername()) != null;
+	}
+
+
+	@Transactional(isolation = Isolation.SERIALIZABLE)
+	public Person createAccount(Person person) {
+		person.setRole(new Role(1, "applicant"));
+		int idNumber = Math.toIntExact(personRepository.count()) + 1;
+		person.setId(idNumber);
+		Person temp = new Person(person);
+		temp.updatePassword(new BCryptPasswordEncoder(10).encode(person.getPassword()));
+		personRepository.saveAndFlush(temp);
 		return person;
 	}
 }
