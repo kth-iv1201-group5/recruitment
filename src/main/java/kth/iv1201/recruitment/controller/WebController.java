@@ -3,6 +3,7 @@ package kth.iv1201.recruitment.controller;
 import kth.iv1201.recruitment.entity.Availability;
 import kth.iv1201.recruitment.entity.CompetenceProfile;
 import kth.iv1201.recruitment.entity.Person;
+import kth.iv1201.recruitment.entity.SignUpForm;
 import kth.iv1201.recruitment.service.AvailabilityService;
 import kth.iv1201.recruitment.service.CompetenceService;
 import kth.iv1201.recruitment.service.EmailService;
@@ -33,6 +34,7 @@ public class WebController {
 	private static final String POSITION_PAGE_URL = "/positions";
 	public static final String RESTORE_PAGE_URL = "/restore";
 	public static final String RESTORE_STATUS_PAGE_URL = "/restore-status";
+	private static final String SIGNUP_PAGE_URL = "/signup";
 
 	private final PersonService personService;
 	private final AvailabilityService availabilityService;
@@ -191,5 +193,29 @@ public class WebController {
 		return RESTORE_STATUS_PAGE_URL;
 	}
 
+	@GetMapping(value = SIGNUP_PAGE_URL)
+	public String signup(Model model) {
+		model.addAttribute("signUpForm", new SignUpForm());
+		return SIGNUP_PAGE_URL;
+	}
 
+	@RequestMapping(value = SIGNUP_PAGE_URL, method = RequestMethod.POST)
+	public String signupForm(SignUpForm form, Model model) {
+		if (!form.validate(model)) {
+			model.addAttribute("signUpForm", form);
+			return SIGNUP_PAGE_URL;
+		}
+		if (personService.isEmailTaken(form.toPerson())) {
+			model.addAttribute("emailIsTaken", true);
+			return SIGNUP_PAGE_URL;
+		}
+		if (personService.isUsernameTaken(form.toPerson())) {
+			model.addAttribute("usernameIsTaken", true);
+			return SIGNUP_PAGE_URL;
+
+		}
+		Person person = personService.createAccount(form.toPerson());
+		emailService.sendNewAccount(person);
+		return LOGIN_PAGE_URL;
+	}
 }
