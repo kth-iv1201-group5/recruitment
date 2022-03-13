@@ -96,10 +96,13 @@ This project will fulfill these functionalities:
 * Requesting new password.
 
 ## Contributing
+<div>
+<img src="https://avatars.githubusercontent.com/u/25460850?v=4" alt="Arif Jedhda-Oh" width="100px">
+<img src="https://avatars.githubusercontent.com/u/98032473?v=4" alt="Hamza Heidar" width="100px">
+<img src="https://avatars.githubusercontent.com/u/54756311?v=4" alt="Porsev Aslan" width="100px">
+</div>
 
-<img src="https://avatars.githubusercontent.com/u/25460850?v=4" alt="Arif Jedhda-Oh" width="200px">
-<img src="https://avatars.githubusercontent.com/u/25460850?v=4" alt="Arif Jedhda-Oh" width="200px">
-<img src="https://avatars.githubusercontent.com/u/25460850?v=4" alt="Arif Jedhda-Oh" width="200px">
+
 If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
 
 <!-- If there's anything else the developer needs to know (e.g. the code style
