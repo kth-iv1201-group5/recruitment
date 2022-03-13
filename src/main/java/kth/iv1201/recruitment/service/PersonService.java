@@ -173,7 +173,7 @@ public class PersonService {
 	 */
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public Person createAccount(Person person) {
-		person.setRole(new Role(1, "applicant"));
+		person.setRole(new Role(2, "applicant"));
 		int idNumber = Math.toIntExact(personRepository.count()) + 1;
 		person.setId(idNumber);
 		Person temp = new Person(person);
