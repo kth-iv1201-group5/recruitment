@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
-    <title>Navbar</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
-          integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
-
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <title>Title</title>
 </head>
-<body th:fragment="navbar">
-<nav class="navbar navbar-dark navbar-expand-md bg-dark navigation-clean-search margin-space">
+<body>
+<nav class="navbar navbar-dark navbar-expand-md bg-dark navigation-clean-search margin-space" th:fragment="navigation">
     <div class="container-fluid">
         <a class="navbar-brand"
            th:onclick="|window.location.href='/home'|">Yellow Lund</a>
@@ -17,7 +13,7 @@
                 th:onclick="|window.location.href='/applicants'|" th:text="#{navbar.btn.dashboard}">Dashboard
         </button>
         <button class="btn navbar-text" sec:authorize="!hasRole('ROLE_recruiter')"
-                th:onclick="|window.location.href='/positions'|">Apply
+                th:onclick="|window.location.href='/positions'|" th:text="#{navbar.btn.apply}">Apply
         </button>
         <div class="collapse navbar-collapse row justify-content-end" id="navcol-1">
             <div sec:authorize="isAnonymous()">

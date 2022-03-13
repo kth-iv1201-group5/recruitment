@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      layout:decorate="~{fragments/layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
     <title th:text="#{head.home}">Home</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
-          integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
-
 </head>
 <body>
-<header class="header-blue">
-    <div th:include="navbar"></div>
-    <div class="container hero">
+<main layout:fragment="content">
+    <div class="container">
         <div class="row">
             <div class="col-12 col-lg-6 col-xl-5 offset-xl-1 text-start">
                 <h1 class="fw-bold" th:text="#{home.heading}"></h1>
@@ -24,7 +23,6 @@
             </div>
         </div>
     </div>
-</header>
-<div th:include="footer"></div>
+</main>
 </body>
 </html>

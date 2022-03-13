@@ -1,32 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en"
+      layout:decorate="~{fragments/layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
     <title th:text="#{head.restore}">restore password</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
-          integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
 </head>
 <body>
-<div th:include="navbar"/>
-<div class="container hero">
-    <h1 th:text="#{restore.header}">Restore password </h1>
-    <div th:text="#{restore.body}">Enter your email to get your new password sent to you</div>
-    <form method="post" th:action="@{/restore-status}">
-        <div class="mb-3"><input class="form-control" name="email" placeholder="email" required
-                                 th:placeholder="#{restore.input.email}" type="email"></div>
-        <div class="mb-3">
-            <button class="btn btn-primary d-block w-100" th:text="#{restore.btn.send}" type="submit">Send request
-            </button>
+<main layout:fragment="content">
+    <div class="container">
+        <h1 th:text="#{restore.header}">Restore password </h1>
+        <div th:text="#{restore.body}">Enter your email to get your new password sent to you</div>
+        <form method="post" th:action="@{/restore-status}">
+            <div class="mb-3"><input class="form-control" name="email" placeholder="email" required type="email" th:placeholder="#{restore.input.email}"></div>
+            <div class="mb-3">
+                <button class="btn btn-primary d-block w-100" th:text="#{restore.btn.send}" type="submit">Send request
+                </button>
+            </div>
+        </form>
+        <div th:if="${missingEmail}">
+            <span class="text-warning" th:text="#{restore.status.body}"></span>
         </div>
-    </form>
-    <div th:if="${missingEmail}">
-        <span class="text-warning" th:text="#{restore.status.body}"></span>
+        <div th:if="${notRequestAble}">
+            <span class="text-warning" th:text="#{restore.status.not.request.able}"></span>
+        </div>
     </div>
-    <div th:if="${notRequestAble}">
-        <span class="text-warning" th:text="#{restore.status.not.request.able}"></span>
-    </div>
-</div>
-<div th:include="footer"></div>
+</main>
 </body>
 </html>
