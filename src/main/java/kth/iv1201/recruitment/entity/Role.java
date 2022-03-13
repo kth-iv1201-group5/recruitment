@@ -1,9 +1,7 @@
 package kth.iv1201.recruitment.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +15,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Table(name = "role")
 public class Role {
@@ -27,6 +23,14 @@ public class Role {
 	private Integer id;
 	private String name;
 
+	public Role() {
+	}
+
+	public Role(Integer id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
 	/**
 	 * Returns name of role.
 	 *
@@ -34,5 +38,9 @@ public class Role {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	public int getId() {
+		return id;
 	}
 }
