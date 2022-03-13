@@ -3,14 +3,17 @@
 > Apply for a job, get approved for the job. This is some random tagline that might need to change.
 
 This project is tasked by the course IV1201, Design of Global Applications, at KTH, Stockholm, Sweden.  
-The project is about creating a recruitment platform where guests can apply for jobs and recruiter can read and approve
-the applicant.
+The project is about creating a recruitment platform where client can apply for jobs and recruiter can read about the application.
 
 ## Installing / Getting started
 
 This project is built on Spring boot together with Thymeleaf and PostgresSQL as the database. To get started you can run
 these commands.
 
+```shell
+make start 
+```
+Or you can start the project yourself.
 ```shell
 ./mvnw clean install
 ./mvnw spring-boot:run
@@ -21,9 +24,9 @@ these commands.
 If you have postgres problem it may be that the default parameter is not the same.
 
 1. First download your example database from project description in Canvas.
-2. Move the downloaded SQL file to `/src/main/resources/`.
-3. In your terminal move to `/src/main/resources/`.
-4. Enter the command to start database in detached mode:
+2. Move the downloaded SQL file to the root of project.
+3. Enter the command to start database in detached mode:
+<!-- Use MinGW in windows -->
 
 ```shell
 docker run -it -d -p 5432:5432 --rm --volume=$(pwd):/data --workdir=/data --name=iv1201_db \
@@ -50,6 +53,8 @@ DEBUG=true
 JDBC_DATABASE_URL=postgresql://localhost:5432/iv1201
 POSTGRES_USERNAME=postgres
 POSTGRES_PASSWORD=postgres
+SMTP_USER=example@gmail.com
+SMTP_PASSWORD=example
 ```
 
 It also good idea to start the project with `./mvnw clean install`
@@ -62,13 +67,7 @@ better view on what you can be working one.
 ```shell
 git clone https://github.com/kth-iv1201-group5/recruitment.git
 cd recruitment/
-./mvnw clean install
-```
-
-Follow the steps about **docker** configurations above. You can then run the command.
-
-```shell
-./mvnw spring-boot:run
+make start
 ```
 
 Here again you should state what actually happens when the code above gets executed.
@@ -82,6 +81,8 @@ GitHub repository to be able to use the actions happening.
 HEROKU_API_KEY=GET-FROM-HEROKU
 HEROKU_APP_NAME=GET-FROM-HEROKU
 HEROKU_EMAIL=GET-FROM-HEROKU
+SMTP_USER=example@gmail.com
+SMTP_PASSWORD=example
 ```
 
 ## Features
@@ -90,12 +91,15 @@ This project will fulfill these functionalities:
 
 * User authentication.
 * User registration.
-* Applicant application for jobs.
-* Recruiter overview of all applicants.
-* Application summary.
+* Applicant applications list.
+* Applicants application profile.
+* Requesting new password.
 
 ## Contributing
 
+<img src="https://avatars.githubusercontent.com/u/25460850?v=4" alt="Arif Jedhda-Oh" width="200px">
+<img src="https://avatars.githubusercontent.com/u/25460850?v=4" alt="Arif Jedhda-Oh" width="200px">
+<img src="https://avatars.githubusercontent.com/u/25460850?v=4" alt="Arif Jedhda-Oh" width="200px">
 If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
 
 <!-- If there's anything else the developer needs to know (e.g. the code style
