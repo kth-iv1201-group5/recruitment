@@ -71,7 +71,9 @@
                     <label>
                         <span th:text="#{signup.label.password}">Enter password</span>
                         <input class="form-control" name="password" placeholder="Password" required
-                               th:field="*{password}" th:placeholder="#{signup.input.password}" type="password">
+                               pattern="(?=.\d.[a-zA-Z]).{8,}" th:field="*{password}"
+                               th:placeholder="#{signup.input.password}"
+                               th:title="#{signup.label.passwordMessage}" type="password">
                         <span class="text-warning" th:if="${invalidPassword}"
                               th:text="#{signup.msg.invalid.password}"></span>
                     </label>
@@ -81,7 +83,9 @@
                         <span th:text="#{signup.label.re.password}">Re-enter password</span>
                         <input class="form-control" name="confirm-password" placeholder="Re-enter password"
                                required
-                               th:field="*{rePassword}" th:placeholder="#{signup.input.password}" type="password">
+                               pattern="(?=.\d.[a-zA-Z]).{8,}" th:field="*{rePassword}"
+                               th:placeholder="#{signup.input.password}"
+                               th:title="#{signup.label.passwordMessage}" type="password">
                         <span class="text-warning" th:if="${invalidPassword}"
                               th:text="#{signup.msg.invalid.password}"></span>
                     </label>
