@@ -1,18 +1,26 @@
-PORT := 8080
+SHELL = /bin/sh
+.SUFFIXES:
 
-help:
-	@echo "Make commands."
-	@echo "  build\tBuild docker image for maven project."
-	@echo "  run\tRun the docker image from docker image created using 'make build' specify 'PORT' argument."
+.DEFAULT_GOAL := start
 
-build: Dockerfile pom.xml src/
-	@echo "Creating docker image."
-	@docker build -f Dockerfile -t kth-iv1201-recruitment --rm .
-	@echo "Docker image created."
+start: existing-database.sql users.sql competence-translation.sql
+	@type "docker" >/dev/null 2>&1 || { echo "Missing Docker"; exit 1; }
+	@docker run -itdp 5432:5432 --rm \
+		--volume=$(pwd):/data \
+		--workdir=/data \
+		--name=iv1201_db \
+		-e POSTGRES_USERNAME=postgres \
+		-e POSTGRES_PASSWORD=postgres \
+		-e POSTGRES_DB="iv1201" \
+		postgres:13-alpine
+	@sleep 5s
+	@docker exec -i iv1201_db psql -U postgres -d iv1201 < ./existing-database.sql
+	@docker exec -i iv1201_db psql -U postgres -d iv1201 < ./users.sql
+	@docker exec -i iv1201_db psql -U postgres -d iv1201 < ./competence-translation.sql
+	@echo "Database is active"
+	@./mvnw clean install
+	@./mvnw spring-boot:run
+	@docker stop iv1201_db
 
-run: Dockerfile
-	@echo "Run detached docker image of application to port $(PORT)."
-	@docker run -it --rm -e PORT=$(PORT) -p $(PORT):$(PORT) -d kth-iv1201-recruitment:latest
-	@echo "Docker image is running!"
-
-
+stop:
+	@docker stop iv1201_db
