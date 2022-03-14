@@ -23,9 +23,15 @@ public class Role {
 	private Integer id;
 	private String name;
 
+	/**
+	 * Constructor with empty arguments.
+	 */
 	public Role() {
 	}
 
+	/**
+	 * Constructor with all arguments.
+	 */
 	public Role(Integer id, String name) {
 		this.id = id;
 		this.name = name;
@@ -40,6 +46,11 @@ public class Role {
 		return name;
 	}
 
+	/**
+	 * Returns the id of current role.
+	 *
+	 * @return integer of role id.
+	 */
 	public int getId() {
 		return id;
 	}
