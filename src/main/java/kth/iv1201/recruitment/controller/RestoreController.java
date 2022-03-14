@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Controller used by the thymeleaf views.
  */
@@ -53,5 +55,17 @@ public class RestoreController {
             return RESTORE_PAGE_URL;
         }
         return RESTORE_STATUS_PAGE_URL;
+    }
+
+    @GetMapping(path = "/restore-password")
+    public String changePassword(HttpServletRequest request, Model model) {
+        System.out.println(request.getServerName());
+        model.addAttribute("servername", request.getServerName());
+        model.addAttribute("serverport", request.getServerPort());
+        model.addAttribute("contextpath", request.getContextPath());
+        model.addAttribute("pathinfo", request.getPathInfo());
+        model.addAttribute("requesturl", request.getRequestURL());
+        model.addAttribute("requesturi", request.getRequestURI());
+        return "/restore-password";
     }
 }
