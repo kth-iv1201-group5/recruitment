@@ -64,4 +64,18 @@ public class EmailService {
 		logger.info("Transaction is complete!");
 		return true;
 	}
+
+	/**
+	 * Send email about newly created account
+	 *
+	 * @param person Person entity.
+	 */
+	public void sendNewAccount(Person person) {
+		SendMail mail = new SendMail(userName, password);
+		try {
+			mail.sendEmailOfNewAccount(person.getEmail(), person.getUsername());
+		} catch (Exception e) {
+			logger.error("Failed to send email.");
+		}
+	}
 }
