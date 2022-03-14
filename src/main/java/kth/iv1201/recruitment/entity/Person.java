@@ -1,25 +1,22 @@
 package kth.iv1201.recruitment.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 /**
  * Person entity Which contains information of Person object. It has annotation of <code>@Entity, @Data,
  *
- * @NoArgsConstructor, @AllArgsConstructor, @Builder, @Table</code> for better and consist readability.
+ * @Builder, @Table</code> for better and consist readability.
  */
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Table(name = "person")
 public class Person {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "person_id")
 	private Integer id;
 	private String name;
@@ -31,6 +28,82 @@ public class Person {
 	@JoinColumn(name = "role_id")
 	private Role role;
 	private String username;
+
+	/**
+	 * Empty constructor
+	 */
+	public Person() {
+	}
+
+
+	/**
+	 * Constructor without id
+	 */
+	public Person(String name, String surname, String pnr, String email, String password, String username) {
+		this.name = name;
+		this.surname = surname;
+		this.pnr = pnr;
+		this.email = email;
+		this.password = password;
+		this.username = username;
+	}
+
+
+	/**
+	 * Constructor with all attributes.
+	 */
+	public Person(Integer id, String name, String surname, String pnr, String email, String password, Role role,
+	              String username) {
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.pnr = pnr;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.username = username;
+	}
+
+	/**
+	 * Constructor out of a previous entity, used for copying the entity.
+	 */
+	public Person(Person person) {
+		this.id = person.getId();
+		this.name = person.getName();
+		this.surname = person.getSurname();
+		this.pnr = person.getPnr();
+		this.email = person.getEmail();
+		this.password = person.getPassword();
+		this.role = person.getRole();
+		this.username = person.getUsername();
+	}
+
+	/**
+	 * Returns the social security number.
+	 *
+	 * @return returns the entity ssn.
+	 */
+	public String getPnr() {
+		return pnr;
+	}
+
+	/**
+	 * Return the surname of entity.
+	 *
+	 * @return Return the surname of entity.
+	 */
+	public String getSurname() {
+		return surname;
+	}
+
+	/**
+	 * Returns the first name of entity.
+	 *
+	 * @return first name of entity.
+	 */
+	public String getName() {
+		return name;
+	}
 
 	/**
 	 * Returns the password of current object.
@@ -87,11 +160,29 @@ public class Person {
 	}
 
 	/**
+	 * Sets id
+	 *
+	 * @param id Sets the entity id.
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
 	 * Returns the role of user.
 	 *
 	 * @return Role object of user.
 	 */
 	public Role getRole() {
 		return role;
+	}
+
+	/**
+	 * Set the role
+	 *
+	 * @param role Sets the entity role.
+	 */
+	public void setRole(Role role) {
+		this.role = role;
 	}
 }
