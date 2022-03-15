@@ -1,5 +1,6 @@
 package kth.iv1201.recruitment.service;
 
+import kth.iv1201.recruitment.config.CustomPasswordEncoder;
 import kth.iv1201.recruitment.entity.ChangePasswordForm;
 import kth.iv1201.recruitment.entity.Person;
 import kth.iv1201.recruitment.entity.ResetPasswordToken;
@@ -8,7 +9,6 @@ import kth.iv1201.recruitment.repository.PersonRepository;
 import kth.iv1201.recruitment.repository.ResetPasswordRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -33,6 +33,7 @@ public class PersonService {
 	private static final Logger logger = LoggerFactory.getLogger(PersonService.class);
 	private final PersonRepository personRepository;
 	private final ResetPasswordRepository resetPasswordRepository;
+	private final CustomPasswordEncoder passwordEncoder;
 
 	/**
 	 * Construction injection.
@@ -42,9 +43,11 @@ public class PersonService {
 	 *
 	 * @param personRepository Construction injection from <code>PersonRepository</code>
 	 */
-	public PersonService(PersonRepository personRepository, ResetPasswordRepository resetPasswordRepository) {
+	public PersonService(PersonRepository personRepository, ResetPasswordRepository resetPasswordRepository,
+	                     CustomPasswordEncoder passwordEncoder) {
 		this.personRepository = personRepository;
 		this.resetPasswordRepository = resetPasswordRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	/**
@@ -185,7 +188,7 @@ public class PersonService {
 		int idNumber = Math.toIntExact(personRepository.count()) + 1;
 		person.setId(idNumber);
 		Person temp = new Person(person);
-		temp.updatePassword(new BCryptPasswordEncoder(10).encode(person.getPassword()));
+		temp.updatePassword(passwordEncoder.encode(person.getPassword()));
 		personRepository.saveAndFlush(temp);
 		return person;
 	}
@@ -215,7 +218,7 @@ public class PersonService {
 		Person person = resetPasswordRepository.findByToken(token);
 		logger.info("Update person with new encrypted password.");
 		personRepository.updateWithNewPassword(person.getId(),
-				new BCryptPasswordEncoder(10).encode(form.getPassword()));
+				passwordEncoder.encode(form.getPassword()));
 		logger.info("Update token in ResetPasswordRepository.");
 		resetPasswordRepository.updateExpireDate(token);
 		logger.info("Transaction complete.");
