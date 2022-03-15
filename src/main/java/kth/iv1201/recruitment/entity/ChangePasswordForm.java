@@ -1,13 +1,11 @@
 package kth.iv1201.recruitment.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 
 @ToString
-@NoArgsConstructor
-@Setter
-@Getter
 @Data
 public class ChangePasswordForm {
 
