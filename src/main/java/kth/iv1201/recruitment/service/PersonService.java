@@ -1,8 +1,11 @@
 package kth.iv1201.recruitment.service;
 
+import kth.iv1201.recruitment.entity.ChangePasswordForm;
 import kth.iv1201.recruitment.entity.Person;
+import kth.iv1201.recruitment.entity.ResetPasswordToken;
 import kth.iv1201.recruitment.entity.Role;
 import kth.iv1201.recruitment.repository.PersonRepository;
+import kth.iv1201.recruitment.repository.ResetPasswordRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,8 +14,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Random;
+import java.util.UUID;
 
 /**
  * This is our service layer for fetching information from <code>Person</code> database layer.
@@ -28,6 +32,7 @@ public class PersonService {
 
 	private static final Logger logger = LoggerFactory.getLogger(PersonService.class);
 	private final PersonRepository personRepository;
+	private final ResetPasswordRepository resetPasswordRepository;
 
 	/**
 	 * Construction injection.
@@ -37,8 +42,9 @@ public class PersonService {
 	 *
 	 * @param personRepository Construction injection from <code>PersonRepository</code>
 	 */
-	public PersonService(PersonRepository personRepository) {
+	public PersonService(PersonRepository personRepository, ResetPasswordRepository resetPasswordRepository) {
 		this.personRepository = personRepository;
+		this.resetPasswordRepository = resetPasswordRepository;
 	}
 
 	/**
@@ -124,20 +130,22 @@ public class PersonService {
 	}
 
 	/**
-	 * Create a new password for user and saves it in database.
+	 * Creates data with person entity and token saved to database.
 	 *
 	 * @param email User email.
 	 *
-	 * @return Person object with a newly created password.
+	 * @return ResetPasswordToken object with person and token.
 	 */
 	@Transactional(isolation = Isolation.SERIALIZABLE)
-	public Person createNewPasswordForUser(String email) {
-		String newPassword = new Random().ints(33, 126).limit(10).collect(StringBuilder::new,
-				StringBuilder::appendCodePoint, StringBuilder::append).toString();
+	public ResetPasswordToken createNewPasswordForUser(String email) {
+		logger.info("Fetching user by email");
 		Person person = personRepository.findByEmail(email);
-		person.updatePassword(newPassword);
-		personRepository.updateWithNewPassword(person.getId(), new BCryptPasswordEncoder(10).encode(newPassword));
-		return person;
+		String token = UUID.randomUUID().toString();
+		ResetPasswordToken resetPasswordToken = new ResetPasswordToken(person, token);
+		logger.info("Saving ResetPasswordToken object with person and token.");
+		resetPasswordRepository.save(resetPasswordToken);
+		logger.info("Saved ResetPasswordToken object.");
+		return resetPasswordToken;
 	}
 
 	/**
