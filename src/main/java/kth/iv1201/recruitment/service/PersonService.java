@@ -189,4 +189,35 @@ public class PersonService {
 		personRepository.saveAndFlush(temp);
 		return person;
 	}
+
+	/**
+	 * Validate entered token.
+	 *
+	 * @param token Client entered token
+	 *
+	 * @return boolean if token is valid.
+	 */
+	@Transactional(isolation = Isolation.SERIALIZABLE)
+	public boolean validateToken(String token) {
+		Timestamp currentDateAndTime = new Timestamp(System.currentTimeMillis());
+		return resetPasswordRepository.isValidToken(token, currentDateAndTime);
+	}
+
+	/**
+	 * Save new entered password to database, with encrypted with BCrypt password encoder.
+	 *
+	 * @param form  Fulfilled form with password
+	 * @param token Form token.
+	 */
+	@Transactional(isolation = Isolation.SERIALIZABLE)
+	public void saveNewPassword(ChangePasswordForm form, String token) {
+		logger.info("Fetching ResetPasswordRepository by token.");
+		Person person = resetPasswordRepository.findByToken(token);
+		logger.info("Update person with new encrypted password.");
+		personRepository.updateWithNewPassword(person.getId(),
+				new BCryptPasswordEncoder(10).encode(form.getPassword()));
+		logger.info("Update token in ResetPasswordRepository.");
+		resetPasswordRepository.updateExpireDate(token);
+		logger.info("Transaction complete.");
+	}
 }
