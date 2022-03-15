@@ -1,6 +1,7 @@
 package kth.iv1201.recruitment.service;
 
 import kth.iv1201.recruitment.entity.Person;
+import kth.iv1201.recruitment.entity.ResetPasswordToken;
 import kth.iv1201.recruitment.model.SendMail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,23 +41,20 @@ public class EmailService {
 	}
 
 	/**
-	 * Sending a email to user via user input with new password.
+	 * Sending a email to user via user input with link to page to change password.
 	 *
 	 * @param email User email.
+	 * @param url   Current URL with DNS and path
 	 *
 	 * @return true if successful or false if failed.
 	 */
 	@Transactional(isolation = Isolation.SERIALIZABLE)
-	public boolean sendNewPasswordRequest(String email) {
+	public boolean sendNewPasswordRequest(String email, String url) {
 		SendMail mail = new SendMail(userName, password);
 		try {
 			logger.info("Starting SMTP service...");
-			logger.info("Creating new password for user.");
-			Person person = personService.createNewPasswordForUser(email);
-			logger.info("New password created.");
-			logger.debug("New password is: " + person.getPassword());
-			mail.sendEmailOfNewPassword(person.getEmail(), person.getPassword());
-			logger.info("Sending new password request to users email: " + email);
+			ResetPasswordToken resetPasswordToken = personService.createNewPasswordForUser(email);
+			mail.sendEmailOfNewPassword(resetPasswordToken.getPerson().getEmail(), resetPasswordToken.getToken(), url);
 		} catch (Exception e) {
 			logger.error("Failed to send email.");
 			return false;
