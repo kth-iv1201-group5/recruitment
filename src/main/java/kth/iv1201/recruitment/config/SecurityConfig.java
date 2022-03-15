@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -25,6 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Value(value = "${spring.websecurity.debug}")
 	private boolean webSecurityDebug;
 
+	private final CustomPasswordEncoder passwordEncoder;
+
+	public SecurityConfig(CustomPasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	/**
 	 * Configuration for Web security.
@@ -75,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Bean
 	public UserDetailsService userDetailsService() {
-		return new SecurityUserDetailsService();
+		return new SecurityUserDetailsService(passwordEncoder);
 	}
 
 	/**
@@ -98,7 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
-		return new BCryptPasswordEncoder(10);
+		return passwordEncoder.init();
 	}
 
 }

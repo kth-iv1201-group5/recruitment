@@ -1,5 +1,6 @@
 package kth.iv1201.recruitment.service;
 
+import kth.iv1201.recruitment.config.CustomPasswordEncoder;
 import kth.iv1201.recruitment.entity.Person;
 import kth.iv1201.recruitment.entity.SecurityUserDetails;
 import org.slf4j.Logger;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -27,6 +27,12 @@ public class SecurityUserDetailsService implements UserDetailsService {
 	 */
 	@Autowired
 	PersonService personService;
+
+	private final CustomPasswordEncoder passwordEncoder;
+
+	public SecurityUserDetailsService(CustomPasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	/**
 	 * Load User by Username
@@ -47,7 +53,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
 			logger.error("User failed to authenticate. Found nothing on the username.");
 			throw new UsernameNotFoundException("Could not find user");
 		}
-		if (!new BCryptPasswordEncoder(10).matches(request.getParameter("password"), person.getPassword())) {
+		if (!passwordEncoder.matches(request.getParameter("password"), person.getPassword())) {
 			logger.error("User failed to authenticate.");
 			throw new UsernameNotFoundException("Wrong password");
 		}

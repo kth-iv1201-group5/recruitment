@@ -1,18 +1,22 @@
 package kth.iv1201.recruitment.service;
 
+import kth.iv1201.recruitment.config.CustomPasswordEncoder;
+import kth.iv1201.recruitment.entity.ChangePasswordForm;
 import kth.iv1201.recruitment.entity.Person;
+import kth.iv1201.recruitment.entity.ResetPasswordToken;
 import kth.iv1201.recruitment.entity.Role;
 import kth.iv1201.recruitment.repository.PersonRepository;
+import kth.iv1201.recruitment.repository.ResetPasswordRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Random;
+import java.util.UUID;
 
 /**
  * This is our service layer for fetching information from <code>Person</code> database layer.
@@ -28,6 +32,8 @@ public class PersonService {
 
 	private static final Logger logger = LoggerFactory.getLogger(PersonService.class);
 	private final PersonRepository personRepository;
+	private final ResetPasswordRepository resetPasswordRepository;
+	private final CustomPasswordEncoder passwordEncoder;
 
 	/**
 	 * Construction injection.
@@ -37,8 +43,11 @@ public class PersonService {
 	 *
 	 * @param personRepository Construction injection from <code>PersonRepository</code>
 	 */
-	public PersonService(PersonRepository personRepository) {
+	public PersonService(PersonRepository personRepository, ResetPasswordRepository resetPasswordRepository,
+	                     CustomPasswordEncoder passwordEncoder) {
 		this.personRepository = personRepository;
+		this.resetPasswordRepository = resetPasswordRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	/**
@@ -124,20 +133,22 @@ public class PersonService {
 	}
 
 	/**
-	 * Create a new password for user and saves it in database.
+	 * Creates data with person entity and token saved to database.
 	 *
 	 * @param email User email.
 	 *
-	 * @return Person object with a newly created password.
+	 * @return ResetPasswordToken object with person and token.
 	 */
 	@Transactional(isolation = Isolation.SERIALIZABLE)
-	public Person createNewPasswordForUser(String email) {
-		String newPassword = new Random().ints(33, 126).limit(10).collect(StringBuilder::new,
-				StringBuilder::appendCodePoint, StringBuilder::append).toString();
+	public ResetPasswordToken createNewPasswordForUser(String email) {
+		logger.info("Fetching user by email");
 		Person person = personRepository.findByEmail(email);
-		person.updatePassword(newPassword);
-		personRepository.updateWithNewPassword(person.getId(), new BCryptPasswordEncoder(10).encode(newPassword));
-		return person;
+		String token = UUID.randomUUID().toString();
+		ResetPasswordToken resetPasswordToken = new ResetPasswordToken(person, token);
+		logger.info("Saving ResetPasswordToken object with person and token.");
+		resetPasswordRepository.save(resetPasswordToken);
+		logger.info("Saved ResetPasswordToken object.");
+		return resetPasswordToken;
 	}
 
 	/**
@@ -177,8 +188,39 @@ public class PersonService {
 		int idNumber = Math.toIntExact(personRepository.count()) + 1;
 		person.setId(idNumber);
 		Person temp = new Person(person);
-		temp.updatePassword(new BCryptPasswordEncoder(10).encode(person.getPassword()));
+		temp.updatePassword(passwordEncoder.encode(person.getPassword()));
 		personRepository.saveAndFlush(temp);
 		return person;
+	}
+
+	/**
+	 * Validate entered token.
+	 *
+	 * @param token Client entered token
+	 *
+	 * @return boolean if token is valid.
+	 */
+	@Transactional(isolation = Isolation.SERIALIZABLE)
+	public boolean validateToken(String token) {
+		Timestamp currentDateAndTime = new Timestamp(System.currentTimeMillis());
+		return resetPasswordRepository.isValidToken(token, currentDateAndTime);
+	}
+
+	/**
+	 * Save new entered password to database, with encrypted with BCrypt password encoder.
+	 *
+	 * @param form  Fulfilled form with password
+	 * @param token Form token.
+	 */
+	@Transactional(isolation = Isolation.SERIALIZABLE)
+	public void saveNewPassword(ChangePasswordForm form, String token) {
+		logger.info("Fetching ResetPasswordRepository by token.");
+		Person person = resetPasswordRepository.findByToken(token);
+		logger.info("Update person with new encrypted password.");
+		personRepository.updateWithNewPassword(person.getId(),
+				passwordEncoder.encode(form.getPassword()));
+		logger.info("Update token in ResetPasswordRepository.");
+		resetPasswordRepository.updateExpireDate(token);
+		logger.info("Transaction complete.");
 	}
 }
