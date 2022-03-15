@@ -59,24 +59,26 @@ public class SendMail {
 	 *
 	 * @param toEmail  Recipient
 	 * @param password New password
+	 * @param url      Redirect url
 	 *
 	 * @throws Exception Failed to send a email.
 	 */
-	public void sendEmailOfNewPassword(String toEmail, String password) throws Exception {
+	public void sendEmailOfNewPassword(String toEmail, String password, String url) throws Exception {
 		try {
-			Message message = createNewPasswordRequestMessage(toEmail, password);
+			Message message = createNewPasswordRequestMessage(toEmail, password, url);
 			Transport.send(message);
 		} catch (MessagingException e) {
 			throw new Exception("Creating email message was made wrong.");
 		}
 	}
 
-	private Message createNewPasswordRequestMessage(String toEmail, String password) throws MessagingException {
+	private Message createNewPasswordRequestMessage(String toEmail, String password, String url) throws MessagingException {
 		Message message = new MimeMessage(getSession());
 		message.setFrom(new InternetAddress(userName, false));
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
 		message.setSubject("[IV1201] Your password have been reset!");
-		message.setContent("<p>You have accessed for a new password.</p>\n\n<p>Your new password is: " + "<b>" + password + "</b>.</p>" + "\n\n<p>Thank you for using our services.</p>", "text/html");
+		message.setContent("<p>Change password here: <a href=\"" + url + "?token=" + password + "\">change " +
+				"password</a></p>", "text/html");
 		message.setSentDate(new Date());
 		return message;
 	}
@@ -113,8 +115,7 @@ public class SendMail {
 		message.setFrom(new InternetAddress(userName, false));
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
 		message.setSubject("[IV1201] Welcome to Yellow Lund!");
-		message.setContent("<h1>Thank you for your registration!</h1>" + "<p>You can now log in to the account with " +
-				"the username: <b>" + username + "</b></p>", "text/html");
+		message.setContent("<h1>Thank you for your registration!</h1>" + "<p>You can now log in to the account with " + "the username: <b>" + username + "</b></p>", "text/html");
 		message.setSentDate(new Date());
 		return message;
 	}
